@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+/* =========================================
+   Base Reset
+========================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Outfit", sans-serif;
+  background-color: #FFFFFF;
+  color: #111111;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   App Bar (Persistent Top Bar)
+========================================= */
+.app-bar {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background-color: #15417C; /* your blue accent */
+  color: #FFFFFF;
+}
+
+.app-bar__logo {
+  height: 140px;      /* adjust as needed */
+  width: auto;
+  margin-right: 12px;
+}
+
+.app-bar__title {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+/* =========================================
+   Page Layout
+========================================= */
+.page-container {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.page-content {
+  width: 100%;
+  max-width: 960px;
+}
+
+/* =========================================
+   Typography
+========================================= */
+h1 {
+  font-size: 25px;
+  margin: 0 0 16px;
+}
+
+h2 {
+  font-size: 22px;
+  margin: 24px 0 12px;
+}
+
+p {
+  margin: 0 0 12px;
+}
+
+.text-secondary {
+  color: #555555;
+  font-size: 14px;
+}
+
+/* =========================================
+   Card Component
+========================================= */
+.card {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.12);
+  padding: 16px;
+}
+
+.card--centered {
+  max-width: 420px;
+  margin: auto;
+}
+
+/* =========================================
+   Buttons
+========================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* Primary button */
+.btn--primary {
+  background-color: #15417C;
+  color: #FFFFFF;
+}
+
+.btn--primary:hover {
+  background-color: #18508F;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Outlined button */
+.btn--outlined {
+  background-color: transparent;
+  color: #15417C;
+  border: 1px solid #15417C;
+}
+
+.btn--outlined:hover {
+  background-color: rgba(21,65,124,0.06);
+}
+
+/* Disabled state */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background-color: #E0E0E0 !important;
+  color: #888888 !important;
+  border-color: #CCCCCC !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* =========================================
+   Splash Page Layout
+========================================= */
+.splash-card {
+  text-align: center;
+}
+
+.splash-title {
+  margin-bottom: 4px;
+}
+
+.splash-subtitle {
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+.splash-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Larger screens: buttons side-by-side optionally */
+@media (min-width: 600px) {
+  .splash-actions {
+    flex-direction: row;
+  }
+  .splash-btn {
+    flex: 1;
+  }
+}
+
+/* =========================================
+   Form & Input Styles
+========================================= */
+.card-title {
+  margin-bottom: 12px;
+}
+
+.form-group {
+  margin-top: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #202124;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid #C4C4C4;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #15417C;
+  box-shadow: 0 0 0 2px rgba(21, 65, 124, 0.15);
+}
+
+.form-error {
+  margin-top: 8px;
+  color: #C62828;
+  font-size: 13px;
+}
+
+/* =========================================
+   Login Page Refinements
+========================================= */
+.login-card {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.login-card .login-actions {
+  margin-top: 20px; /* extra space between input and Continue button */
+}
+
+.text-hint {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #5f6368; /* subtler, hint-style text */
+}
+
+.login-card .login-instruction {
+  margin-bottom: 8px; /* breathing room before the input field */
+}

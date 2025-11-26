@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabgha Education Center School Survey</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Top Bar -->
+  <header class="app-bar">
+    <img
+      id="app-logo"
+      alt="School Logo"
+      class="app-bar__logo"
+      src="school-logo.png"
+    />
+    <div id="app-title" class="app-bar__title"></div>
+  </header>
+
+  <main class="page-container">
+    <section class="page-content">
+      <div class="card card--centered splash-card">
+        <h1 class="splash-title">Welcome to Tabgha School Survey</h1>
+        <p class="text-secondary splash-subtitle">
+          Please choose how you would like to sign in.
+        </p>
+
+        <div class="splash-actions">
+          <a
+            id="parent-login"
+            href="loginParent.html"
+            class="btn btn--primary btn--block splash-btn"
+          >
+            Login as Parent
+          </a>
+
+          <a
+            id="faculty-login"
+            href="loginFaculty.html"
+            class="btn btn--outlined btn--block splash-btn"
+          >
+            Login as Student / Faculty
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      // Set dynamic top-bar title with current year
+      const titleEl = document.getElementById("app-title");
+      const currentYear = new Date().getFullYear();
+      if (titleEl) {
+        titleEl.textContent =
+          "Tabgha Education Center School Survey " + currentYear;
+      }
+    })();
+  </script>
+</body>
+</html>
