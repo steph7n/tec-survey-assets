@@ -15,6 +15,7 @@ function doGet(e) {
     "loginFaculty",
     "surveyHome",
     "survey",
+    "surveyInactive",
     "thankyou",
     "admin"
   ];

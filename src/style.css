@@ -243,3 +243,322 @@ p {
 .login-card .login-instruction {
   margin-bottom: 8px; /* breathing room before the input field */
 }
+
+/* =========================================
+   Admin Dashboard / Superadmin Layout
+========================================= */
+
+body.admin-page {
+  background-color: #F5F5F5;
+}
+
+/* Top bar for internal pages (different from .app-bar on login) */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.top-bar-left,
+.top-bar-center,
+.top-bar-right {
+  display: flex;
+  align-items: center;
+}
+
+.top-bar-center {
+  flex: 1;
+  justify-content: center;
+  pointer-events: none; /* so chips feel non-clickable for now */
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-logo {
+  height: 40px;
+  width: auto;
+  margin-right: 12px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-line-1 {
+  font-size: 13px;
+  color: #555555;
+}
+
+.brand-line-2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Role chips */
+.role-chips {
+  display: flex;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  border: 1px solid #D0D0D0;
+  background-color: #FFFFFF;
+  color: #555555;
+}
+
+.chip-outline {
+  background-color: #FFFFFF;
+}
+
+.chip-filled {
+  background-color: #15417C;
+  color: #FFFFFF;
+  border-color: #15417C;
+}
+
+/* Env badge + user info */
+.env-badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background-color: #FCE4EC;
+  color: #C2185B;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 12px;
+}
+
+.user-info-email {
+  font-weight: 500;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #15417C;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+/* Main layout: sidebar + content */
+.layout {
+  display: flex;
+  min-height: calc(100vh - 72px);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: #F5F5F5;
+  border-right: 1px solid #E0E0E0;
+  padding: 16px 12px 24px;
+}
+
+.sidebar-section {
+  margin-bottom: 24px;
+}
+
+.sidebar-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #757575;
+  margin-bottom: 8px;
+}
+
+.sidebar-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+}
+
+.sidebar-item:hover {
+  background-color: #E9EEF7;
+}
+
+.sidebar-item.is-active {
+  background-color: rgba(21, 65, 124, 0.08);
+  color: #15417C;
+  font-weight: 600;
+}
+
+.sidebar-icon {
+  width: 24px;
+  display: inline-flex;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  padding: 24px;
+  max-width: 1200px;
+}
+
+/* Summary & secondary grids */
+.admin-summary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.admin-secondary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+  gap: 16px;
+}
+
+/* Card internals */
+.card-header h2,
+.card-header h3 {
+  margin: 0 0 8px;
+}
+
+.status-body {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.status-meta {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #555555;
+}
+
+.status-right {
+  text-align: right;
+  min-width: 160px;
+}
+
+.summary-number {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.summary-label {
+  font-size: 13px;
+  color: #555555;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.status-breakdown {
+  font-size: 13px;
+  color: #555555;
+}
+
+.status-breakdown.compact div {
+  margin-bottom: 2px;
+}
+
+/* Status pill colours */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-pill-neutral {
+  background-color: #E0E0E0;
+  color: #555555;
+}
+
+.status-pill-open {
+  background-color: #C8E6C9;
+  color: #1B5E20;
+}
+
+.status-pill-closed {
+  background-color: #FFCDD2;
+  color: #B71C1C;
+}
+
+/* Quick actions & config */
+.quick-actions-body .btn {
+  margin-bottom: 6px;
+}
+
+.helper-text {
+  font-size: 12px;
+  color: #555555;
+  margin: 4px 0 12px;
+}
+
+.config-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.config-list li {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+/* Responsive behaviour */
+@media (max-width: 960px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #E0E0E0;
+  }
+
+  .admin-summary-grid,
+  .admin-secondary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .status-body {
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .status-right {
+    text-align: left;
+  }
+}

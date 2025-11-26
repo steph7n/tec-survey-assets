@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base target="_top" />
+    <meta charset="UTF-8" />
+    <title>Tabgha Education Center School Survey – Admin</title>
+
+    <!-- Local preview CSS (when opened from GitHub Pages / local dev) -->
+    <link
+      id="localStylesheet"
+      rel="stylesheet"
+      href="style.css"
+    />
+
+    <!-- GAS / production CSS (served from GitHub Pages tec-survey-assets-v2/docs) -->
+    <link
+      id="gasStylesheet"
+      rel="stylesheet"
+      href="https://YOUR_GITHUB_USERNAME.github.io/tec-survey-assets-v2/style.css"
+    />
+
+    <!-- Environment switch: enable ONLY one stylesheet -->
+    <script>
+      (function () {
+        var host = window.location.hostname;
+        var isLocal =
+          host === "localhost" ||
+          host === "127.0.0.1" ||
+          host.endsWith(".github.io");
+
+        var localCss = document.getElementById("localStylesheet");
+        var gasCss = document.getElementById("gasStylesheet");
+
+        if (!localCss || !gasCss) return;
+
+        if (isLocal) {
+          // Local / GitHub preview
+          gasCss.disabled = true;
+        } else {
+          // Apps Script runtime (.script.googleusercontent.com)
+          localCss.disabled = true;
+        }
+      })();
+    </script>
+  </head>
+
+  <body class="page admin-page">
+    <!-- ========== TOP BAR ========== -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <div class="brand">
+          <!-- Update src to your actual GitHub Pages logo path -->
+          <img
+            src="https://YOUR_GITHUB_USERNAME.github.io/tec-survey-assets-v2/school-logo.png"
+            alt="Tabgha Education Center logo"
+            class="brand-logo"
+          />
+          <div class="brand-text">
+            <div class="brand-line-1">Tabgha Education Center</div>
+            <div class="brand-line-2">
+              School Survey <span class="js-year"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-bar-center">
+        <div class="role-chips">
+          <span class="chip chip-outline">Student</span>
+          <span class="chip chip-outline">Parent</span>
+          <span class="chip chip-outline">Faculty</span>
+          <span class="chip chip-filled">Admin</span>
+        </div>
+      </div>
+
+      <div class="top-bar-right">
+        <span
+          id="envBadge"
+          class="env-badge"
+          style="display: none;"
+        >
+          DEV
+        </span>
+        <div class="user-info">
+          <div class="user-info-label">Logged in as</div>
+          <div
+            class="user-info-email"
+            id="userEmail"
+          >
+            superadmin@example.com
+          </div>
+        </div>
+        <div class="user-avatar">
+          <span id="userAvatarInitial">S</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== MAIN LAYOUT ========== -->
+    <main class="layout">
+      <!-- ===== Sidebar ===== -->
+      <aside class="sidebar admin-sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Admin Console</div>
+          <button class="sidebar-item is-active">
+            <span class="sidebar-icon">🏠</span>
+            <span class="sidebar-label">Dashboard</span>
+          </button>
+          <button class="sidebar-item" id="btnInitiateSurveySidebar">
+            <span class="sidebar-icon">🗓️</span>
+            <span class="sidebar-label">Initiate New Survey Year</span>
+          </button>
+          <button class="sidebar-item" id="btnOpenCloseSidebar">
+            <span class="sidebar-icon">🔓</span>
+            <span class="sidebar-label">Open / Close Current Survey</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Configuration</div>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">📄</span>
+            <span class="sidebar-label">Yearly Config File</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">🧑‍🏫</span>
+            <span class="sidebar-label">Faculty &amp; Student DB Links</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">🧩</span>
+            <span class="sidebar-label">Survey Mapping (SurveyMap)</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">🧬</span>
+            <span class="sidebar-label">Characters &amp; Traits</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Monitoring</div>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">📊</span>
+            <span class="sidebar-label">Live Response Monitor</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">✅</span>
+            <span class="sidebar-label">Validation &amp; Errors</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">📥</span>
+            <span class="sidebar-label">Export / Reports</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- ===== Main Content ===== -->
+      <section class="main-content admin-main">
+        <!-- Top summary cards -->
+        <div class="admin-summary-grid">
+          <!-- Current Survey Status -->
+          <article class="card card-status">
+            <div class="card-header">
+              <h2>Current Survey Status</h2>
+            </div>
+            <div class="card-body status-body">
+              <div class="status-left">
+                <div id="surveyStatusPill" class="status-pill status-pill-neutral">
+                  NOT STARTED
+                </div>
+
+                <div class="status-meta">
+                  <div>
+                    <strong>Survey Year:</strong>
+                    <span id="surveyYearDisplay">—</span>
+                  </div>
+                  <div>
+                    <strong>Window:</strong>
+                    <span id="surveyWindow">—</span>
+                  </div>
+                  <div>
+                    <strong>Config file:</strong>
+                    <a
+                      id="configFileLink"
+                      href="#"
+                      target="_blank"
+                    >
+                      —
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="status-right">
+                <div class="summary-number" id="overallCompletion">0%</div>
+                <div class="summary-label">Overall completion</div>
+                <div class="status-breakdown">
+                  <div>Parents: <span id="parentCompletion">0%</span></div>
+                  <div>Students: <span id="studentCompletion">0%</span></div>
+                  <div>Faculty: <span id="facultyCompletion">0%</span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Participation Snapshot -->
+          <article class="card card-participation">
+            <div class="card-header">
+              <h3>Participation Snapshot</h3>
+            </div>
+            <div class="card-body">
+              <div class="summary-number" id="snapshotOverall">0%</div>
+              <div class="summary-label">Overall completion</div>
+              <div class="status-breakdown compact">
+                <div>Parents: <span id="snapshotParents">0%</span></div>
+                <div>Students: <span id="snapshotStudents">0%</span></div>
+                <div>Faculty: <span id="snapshotFaculty">0%</span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Response Overview -->
+          <article class="card card-responses">
+            <div class="card-header">
+              <h3>Response Overview</h3>
+            </div>
+            <div class="card-body">
+              <div class="summary-number" id="totalResponses">0</div>
+              <div class="summary-label">Responses recorded</div>
+              <div class="status-breakdown compact">
+                <div>Validated: <span id="validatedCount">0</span></div>
+                <div>With errors: <span id="errorCount">0</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Second row: Quick actions + Config summary -->
+        <div class="admin-secondary-grid">
+          <article class="card card-actions">
+            <div class="card-header">
+              <h3>Quick Actions</h3>
+            </div>
+            <div class="card-body quick-actions-body">
+              <button
+                class="btn btn--primary btn--block"
+                id="btnInitiateSurvey"
+              >
+                Initiate New Survey Year
+              </button>
+              <p class="helper-text">
+                Creates a fresh Yearly Config File from the template and
+                updates the Core DB reference.
+              </p>
+
+              <button
+                class="btn btn--outlined btn--block"
+                id="btnToggleSurvey"
+              >
+                Open / Close Current Survey
+              </button>
+              <p class="helper-text">
+                Toggles survey availability based on
+                <code>lockStatus</code>, <code>surveyStartDate</code>, and
+                <code>surveyEndDate</code> in the Config sheet.
+              </p>
+            </div>
+          </article>
+
+          <article class="card card-config">
+            <div class="card-header">
+              <h3>Configuration Overview</h3>
+            </div>
+            <div class="card-body">
+              <ul class="config-list">
+                <li>
+                  <strong>Core DB ID:</strong>
+                  <span id="coreDbId">—</span>
+                </li>
+                <li>
+                  <strong>Current Config File ID:</strong>
+                  <span id="currentConfigId">—</span>
+                </li>
+                <li>
+                  <strong>Debug mode:</strong>
+                  <span id="debugModeDisplay">—</span>
+                </li>
+                <li>
+                  <strong>Survey lock status:</strong>
+                  <span id="lockStatusDisplay">—</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- ========== PAGE SCRIPT ========== -->
+    <script>
+      // ---- Front-end init ----
+      function initAdminPage() {
+        // 1. Set year in top bar from system clock
+        var yearSpans = document.querySelectorAll(".js-year");
+        var currentYear = new Date().getFullYear();
+        yearSpans.forEach(function (el) {
+          el.textContent = currentYear;
+        });
+
+        // 2. Wire buttons (client-side only; server calls below)
+        document
+          .getElementById("btnInitiateSurvey")
+          .addEventListener("click", onInitiateSurveyClick);
+        document
+          .getElementById("btnInitiateSurveySidebar")
+          .addEventListener("click", onInitiateSurveyClick);
+        document
+          .getElementById("btnToggleSurvey")
+          .addEventListener("click", onToggleSurveyClick);
+        document
+          .getElementById("btnOpenCloseSidebar")
+          .addEventListener("click", onToggleSurveyClick);
+
+        // 3. Fetch dashboard data from Apps Script (if available)
+        if (window.google && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(populateDashboard)
+            .withFailureHandler(function (err) {
+              console.error("getSuperadminDashboardData failed", err);
+            })
+            .getSuperadminDashboardData();
+        }
+      }
+
+      // ---- Populate from server data ----
+      // Expected shape of data (you can adjust in .gs):
+      // {
+      //   debugMode: true/false,
+      //   loggedInEmail: "…",
+      //   surveyYear: 2025,
+      //   surveyStatus: "NOT STARTED"|"ACTIVE"|"CLOSED",
+      //   surveyWindowText: "10–24 November 2025",
+      //   configFileName: "2025_Tabgha_Survey_Config",
+      //   configFileUrl: "https://…",
+      //   coreDbId: "…",
+      //   currentConfigId: "…",
+      //   lockStatus: "CLOSED"|"OPEN"|"...",
+      //   stats: {
+      //     overall: 38,
+      //     parents: 41,
+      //     students: 36,
+      //     faculty: 35,
+      //     totalResponses: 0,
+      //     validated: 0,
+      //     errors: 0
+      //   }
+      // }
+      function populateDashboard(data) {
+        if (!data) return;
+
+        // User info
+        if (data.loggedInEmail) {
+          document.getElementById("userEmail").textContent =
+            data.loggedInEmail;
+          document.getElementById("userAvatarInitial").textContent =
+            data.loggedInEmail.charAt(0).toUpperCase();
+        }
+
+        // Debug badge
+        if (data.debugMode) {
+          document.getElementById("envBadge").style.display = "inline-flex";
+        }
+
+        // Status pill
+        setSurveyStatusPill(data.surveyStatus);
+
+        // Status meta
+        document.getElementById("surveyYearDisplay").textContent =
+          data.surveyYear || "—";
+        document.getElementById("surveyWindow").textContent =
+          data.surveyWindowText || "—";
+
+        var link = document.getElementById("configFileLink");
+        if (data.configFileUrl) {
+          link.textContent = data.configFileName || "Open config file";
+          link.href = data.configFileUrl;
+        } else {
+          link.textContent = "—";
+          link.removeAttribute("href");
+        }
+
+        // Stats
+        var s = data.stats || {};
+        document.getElementById("overallCompletion").textContent =
+          (s.overall ?? 0) + "%";
+        document.getElementById("parentCompletion").textContent =
+          (s.parents ?? 0) + "%";
+        document.getElementById("studentCompletion").textContent =
+          (s.students ?? 0) + "%";
+        document.getElementById("facultyCompletion").textContent =
+          (s.faculty ?? 0) + "%";
+
+        document.getElementById("snapshotOverall").textContent =
+          (s.overall ?? 0) + "%";
+        document.getElementById("snapshotParents").textContent =
+          (s.parents ?? 0) + "%";
+        document.getElementById("snapshotStudents").textContent =
+          (s.students ?? 0) + "%";
+        document.getElementById("snapshotFaculty").textContent =
+          (s.faculty ?? 0) + "%";
+
+        document.getElementById("totalResponses").textContent =
+          s.totalResponses ?? 0;
+        document.getElementById("validatedCount").textContent =
+          s.validated ?? 0;
+        document.getElementById("errorCount").textContent =
+          s.errors ?? 0;
+
+        // Config overview
+        document.getElementById("coreDbId").textContent =
+          data.coreDbId || "—";
+        document.getElementById("currentConfigId").textContent =
+          data.currentConfigId || "—";
+        document.getElementById("debugModeDisplay").textContent = String(
+          !!data.debugMode
+        );
+        document.getElementById("lockStatusDisplay").textContent =
+          data.lockStatus || "—";
+      }
+
+      function setSurveyStatusPill(status) {
+        var pill = document.getElementById("surveyStatusPill");
+        if (!pill) return;
+        pill.classList.remove(
+          "status-pill-neutral",
+          "status-pill-open",
+          "status-pill-closed"
+        );
+
+        var label = "NOT STARTED";
+        if (status === "ACTIVE" || status === "OPEN") {
+          label = "ACTIVE";
+          pill.classList.add("status-pill-open");
+        } else if (status === "CLOSED") {
+          label = "CLOSED";
+          pill.classList.add("status-pill-closed");
+        } else {
+          pill.classList.add("status-pill-neutral");
+        }
+        pill.textContent = label;
+      }
+
+      // ---- Button handlers ----
+      function onInitiateSurveyClick() {
+        if (
+          !window.google ||
+          !google.script ||
+          !google.script.run
+        ) {
+          alert(
+            "This button only works when deployed as a web app."
+          );
+          return;
+        }
+
+        if (
+          !confirm(
+            "Initiate a new survey year?\n\nThis will create a fresh Yearly Config File from the template. Continue?"
+          )
+        ) {
+          return;
+        }
+
+        google.script.run
+          .withSuccessHandler(function (msg) {
+            alert(msg || "Survey year initiated.");
+            google.script.run
+              .withSuccessHandler(populateDashboard)
+              .getSuperadminDashboardData();
+          })
+          .withFailureHandler(function (err) {
+            console.error("initiateSurvey failed", err);
+            alert(
+              "Failed to initiate survey. See console for details."
+            );
+          })
+          .initiateSurvey(); // existing function in InitSurvey.gs
+      }
+
+      function onToggleSurveyClick() {
+        if (
+          !window.google ||
+          !google.script ||
+          !google.script.run
+        ) {
+          alert(
+            "This button only works when deployed as a web app."
+          );
+          return;
+        }
+
+        if (
+          !confirm(
+            "Toggle survey open/closed status based on Config?\n\nYou can fine-tune dates and lockStatus later in the Config sheet."
+          )
+        ) {
+          return;
+        }
+
+        google.script.run
+          .withSuccessHandler(function (msg) {
+            alert(msg || "Survey status updated.");
+            google.script.run
+              .withSuccessHandler(populateDashboard)
+              .getSuperadminDashboardData();
+          })
+          .withFailureHandler(function (err) {
+            console.error("toggleSurveyOpenClosed failed", err);
+            alert(
+              "Failed to update survey status. See console for details."
+            );
+          })
+          .toggleSurveyOpenClosed(); // new helper you'll add in .gs
+      }
+
+      document.addEventListener("DOMContentLoaded", initAdminPage);
+    </script>
+  </body>
+</html>

@@ -61,9 +61,10 @@
         if (contentEl) contentEl.innerHTML = html;
       }
 
-      function goto(url) {
+      function gotoPage(pageName) {
         if (!baseUrl) return;
-        window.location.href = baseUrl + "/" + url;
+        // e.g. https://script.google.com/.../exec?page=admin
+        window.location.href = baseUrl + "?page=" + encodeURIComponent(pageName);
       }
 
       // Local preview (opened directly from file system)
@@ -136,17 +137,17 @@
 
           // 3. Valid domain → route by status
           if (result.status === "superadmin") {
-            goto("admin.html");
+            gotoPage("admin");
             return;
           }
 
           if (result.status === "faculty" || result.status === "student") {
-            goto("surveyHome.html");
+            gotoPage("surveyHome");
             return;
           }
 
           if (result.status === "inactive") {
-            goto("surveyInactive.html");
+            gotoPage("surveyInactive");
             return;
           }
 
