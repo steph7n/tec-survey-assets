@@ -573,7 +573,7 @@ body.sidebar-open .sidebar-backdrop {
 }
 
 /* Responsive behaviour */
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
   .layout {
     display: flex;
     flex-direction: column;
@@ -626,7 +626,7 @@ body.sidebar-open .sidebar-backdrop {
    Admin Dashboard - Mobile Overrides
    (ensure correct behaviour on small screens)
 ========================================= */
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
   /* Show hamburger on admin pages */
   body.admin-page .sidebar-toggle {
     display: inline-flex;
