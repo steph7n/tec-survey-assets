@@ -551,5 +551,21 @@
 
       document.addEventListener("DOMContentLoaded", initAdminPage);
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var el = document.createElement("div");
+        el.style.position = "fixed";
+        el.style.right = "8px";
+        el.style.bottom = "8px";
+        el.style.zIndex = "9999";
+        el.style.background = "rgba(0,0,0,0.7)";
+        el.style.color = "#fff";
+        el.style.fontSize = "12px";
+        el.style.padding = "4px 6px";
+        el.style.borderRadius = "4px";
+        el.textContent = window.innerWidth + " x " + window.innerHeight;
+        document.body.appendChild(el);
+      });
+    </script>
   </body>
 </html>
