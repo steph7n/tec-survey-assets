@@ -621,3 +621,62 @@ body.sidebar-open .sidebar-backdrop {
     text-align: left;
   }
 }
+
+/* =========================================
+   Admin Dashboard - Mobile Overrides
+   (ensure correct behaviour on small screens)
+========================================= */
+@media (max-width: 960px) {
+  /* Show hamburger on admin pages */
+  body.admin-page .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Sidebar as overlay drawer */
+  body.admin-page .sidebar {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 260px;
+    height: calc(100vh - 72px);
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    z-index: 20;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  /* Backdrop over main content when sidebar is open */
+  body.admin-page .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 15;
+  }
+
+  body.sidebar-open .sidebar-backdrop {
+    display: block;
+  }
+
+  /* Main content full-width on mobile */
+  body.admin-page .main-content {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  /* Stack cards vertically */
+  body.admin-page .admin-summary-grid,
+  body.admin-page .admin-secondary-grid {
+    grid-template-columns: 1fr;
+  }
+}
