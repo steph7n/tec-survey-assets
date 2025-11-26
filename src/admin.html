@@ -9,7 +9,7 @@
     <link
       id="localStylesheet"
       rel="stylesheet"
-      href="style.css"
+      href="../docs/style.css"
     />
 
     <!-- GAS / production CSS (served from GitHub Pages tec-survey-assets-v2/docs) -->
@@ -48,6 +48,13 @@
     <!-- ========== TOP BAR ========== -->
     <header class="top-bar">
       <div class="top-bar-left">
+        <button
+          class="sidebar-toggle"
+          id="sidebarToggle"
+          aria-label="Toggle navigation"
+        >
+          &#9776;
+        </button>
         <div class="brand">
           <!-- Update src to your actual GitHub Pages logo path -->
           <img
@@ -61,15 +68,6 @@
               School Survey <span class="js-year"></span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="top-bar-center">
-        <div class="role-chips">
-          <span class="chip chip-outline">Student</span>
-          <span class="chip chip-outline">Parent</span>
-          <span class="chip chip-outline">Faculty</span>
-          <span class="chip chip-filled">Admin</span>
         </div>
       </div>
 
@@ -96,10 +94,12 @@
       </div>
     </header>
 
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
     <!-- ========== MAIN LAYOUT ========== -->
     <main class="layout">
       <!-- ===== Sidebar ===== -->
-      <aside class="sidebar admin-sidebar">
+      <aside class="sidebar admin-sidebar" id="adminSidebar">
         <div class="sidebar-section">
           <div class="sidebar-title">Admin Console</div>
           <button class="sidebar-item is-active">
@@ -328,6 +328,32 @@
               console.error("getSuperadminDashboardData failed", err);
             })
             .getSuperadminDashboardData();
+        }
+
+        // 4. Sidebar toggle for mobile
+        var sidebarToggle = document.getElementById("sidebarToggle");
+        var sidebarBackdrop = document.getElementById("sidebarBackdrop");
+
+        function openSidebar() {
+          document.body.classList.add("sidebar-open");
+        }
+
+        function closeSidebar() {
+          document.body.classList.remove("sidebar-open");
+        }
+
+        if (sidebarToggle) {
+          sidebarToggle.addEventListener("click", function () {
+            if (document.body.classList.contains("sidebar-open")) {
+              closeSidebar();
+            } else {
+              openSidebar();
+            }
+          });
+        }
+
+        if (sidebarBackdrop) {
+          sidebarBackdrop.addEventListener("click", closeSidebar);
         }
       }
 
