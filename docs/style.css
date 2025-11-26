@@ -401,7 +401,7 @@ body.sidebar-open .sidebar-backdrop {
 
 /* Sidebar */
 .sidebar {
-  width: 260px;
+  width: 260px; /* base width; overridden for admin in mobile overrides below */
   background-color: #15417C;
   border-right: 1px solid #0D305E;
   padding: 16px 12px 24px;
@@ -584,7 +584,7 @@ body.sidebar-open .sidebar-backdrop {
     top: 72px;
     left: 0;
     height: calc(100vh - 72px);
-    width: 260px;
+    width: 260px; /* base width; overridden for admin in mobile overrides below */
     transform: translateX(-100%);
     transition: transform 0.2s ease;
     z-index: 20;
@@ -639,7 +639,7 @@ body.sidebar-open .sidebar-backdrop {
     position: fixed;
     top: 72px;
     left: 0;
-    width: 260px;
+    width: min(320px, 80vw);
     height: calc(100vh - 72px);
     transform: translateX(-100%);
     transition: transform 0.2s ease;
@@ -666,6 +666,35 @@ body.sidebar-open .sidebar-backdrop {
 
   body.sidebar-open .sidebar-backdrop {
     display: block;
+  }
+
+  /* Slightly larger fonts on mobile layout */
+  body.admin-page {
+    font-size: 16px;
+  }
+
+  body.admin-page .brand-line-1 {
+    font-size: 14px;
+  }
+
+  body.admin-page .brand-line-2 {
+    font-size: 20px;
+  }
+
+  body.admin-page .sidebar-title {
+    font-size: 13px;
+  }
+
+  body.admin-page .sidebar-item {
+    font-size: 15px;
+  }
+
+  body.admin-page .summary-label,
+  body.admin-page .status-breakdown,
+  body.admin-page .status-meta,
+  body.admin-page .config-list li,
+  body.admin-page .helper-text {
+    font-size: 14px;
   }
 
   /* Main content full-width on mobile */
