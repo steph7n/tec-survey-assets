@@ -1,64 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
   <title>Tabgha Education Center School Survey</title>
 
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<body>
-  <!-- Top Bar -->
-  <header class="app-bar">
-    <img
-      id="app-logo"
-      alt="School Logo"
-      class="app-bar__logo"
-      src="school-logo.png"
-    />
-    <div id="app-title" class="app-bar__title"></div>
-  </header>
-
-  <main class="page-container">
-    <section class="page-content">
-      <div class="card card--centered splash-card">
-        <h1 class="splash-title">Welcome to Tabgha School Survey</h1>
-        <p class="text-secondary splash-subtitle">
-          Please choose how you would like to sign in.
-        </p>
-
-        <div class="splash-actions">
-          <a
-            id="parent-login"
-            href="https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=loginParent"
-            class="btn btn--primary btn--block splash-btn"
-          >
-            Login as Parent
-          </a>
-
-          <a
-            id="faculty-login"
-            href="https://accounts.google.com/AccountChooser?continue=https%3A%2F%2Fscript.google.com%2Fa%2Fmacros%2Ftabgha.education%2Fs%2FAKfycbxdjJ5ffCbMKyLqjQb-z2Ny5jvwX0J2dLC-NDvGnQIHvak2mPWhHDoZXjd45oG9WP_z3g%2Fexec%3Fpage%3DloginFaculty"
-            class="btn btn--outlined btn--block splash-btn"
-          >
-            Login as Student / Faculty
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
+  <!-- Meta refresh fallback -->
+  <meta http-equiv="refresh"
+        content="0; url=https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash" />
 
   <script>
-    (function () {
-      // Set dynamic top-bar title with current year
-      const titleEl = document.getElementById("app-title");
-      const currentYear = new Date().getFullYear();
-      if (titleEl) {
-        titleEl.textContent =
-          "School Survey " + currentYear;
-      }
-    })();
+    // Preferred: JavaScript redirect
+    window.location.replace("https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash");
   </script>
+</head>
+<body>
+  <p>
+    Redirecting to the survey portal…
+    If you are not redirected, 
+    <a href="https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash">
+      click here
+    </a>.
+  </p>
 </body>
 </html>
