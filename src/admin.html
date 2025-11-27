@@ -324,13 +324,27 @@
         // 4. Sidebar toggle for mobile
         var sidebarToggle = document.getElementById("sidebarToggle");
         var sidebarBackdrop = document.getElementById("sidebarBackdrop");
+        var desktopMediaQuery = window.matchMedia("(min-width: 1025px)");
 
         function openSidebar() {
           document.body.classList.add("sidebar-open");
+          document.body.classList.remove("sidebar-closed");
         }
 
         function closeSidebar() {
           document.body.classList.remove("sidebar-open");
+          document.body.classList.add("sidebar-closed");
+        }
+
+        // Keep default state sensible per viewport size:
+        // - Desktop: open by default so the admin nav is visible
+        // - Tablet/phone: closed by default to leave room for content
+        function syncSidebarToViewport() {
+          if (desktopMediaQuery.matches) {
+            openSidebar();
+          } else {
+            closeSidebar();
+          }
         }
 
         if (sidebarToggle) {
@@ -345,6 +359,13 @@
 
         if (sidebarBackdrop) {
           sidebarBackdrop.addEventListener("click", closeSidebar);
+        }
+
+        syncSidebarToViewport();
+        if (desktopMediaQuery.addEventListener) {
+          desktopMediaQuery.addEventListener("change", syncSidebarToViewport);
+        } else if (desktopMediaQuery.addListener) {
+          desktopMediaQuery.addListener(syncSidebarToViewport);
         }
       }
 

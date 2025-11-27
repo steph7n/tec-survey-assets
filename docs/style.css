@@ -257,7 +257,7 @@ body.admin-page {
 .top-bar {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 25;
   height: 80px;
   display: flex;
   align-items: center;
@@ -389,16 +389,12 @@ body.admin-page {
 .sidebar-backdrop {
   display: none;
   position: fixed;
-  top: 72px;
+  top: 80px;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 15;
-}
-
-body.sidebar-open .sidebar-backdrop {
-  display: block;
 }
 
 /* Main layout: sidebar + content */
@@ -414,6 +410,7 @@ body.sidebar-open .sidebar-backdrop {
   border-right: 1px solid #0D305E;
   padding: 16px 12px 24px;
   color: #FFFFFF;
+  transition: transform 0.2s ease, width 0.2s ease, padding 0.2s ease;
 }
 
 .sidebar-section {
@@ -606,6 +603,11 @@ body.sidebar-open .sidebar-backdrop {
     border-bottom: none;
   }
 
+  body.admin-page.sidebar-open .sidebar {
+    transform: translateX(0);
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.12);
+  }
+
   body.admin-page .sidebar-backdrop {
     display: none;
     position: fixed;
@@ -615,6 +617,10 @@ body.sidebar-open .sidebar-backdrop {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 15;
+  }
+
+  body.admin-page.sidebar-open .sidebar-backdrop {
+    display: block;
   }
 
   body.admin-page .sidebar-item {
@@ -763,6 +769,11 @@ body.sidebar-open .sidebar-backdrop {
     border-bottom: none;
   }
 
+  body.admin-page.sidebar-open .sidebar {
+    transform: translateX(0);
+    box-shadow: 6px 0 24px rgba(0, 0, 0, 0.14);
+  }
+
   body.admin-page .sidebar-backdrop {
     display: none;
     position: fixed;
@@ -772,6 +783,10 @@ body.sidebar-open .sidebar-backdrop {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 15;
+  }
+
+  body.admin-page.sidebar-open .sidebar-backdrop {
+    display: block;
   }
 
   body.admin-page .sidebar-item {
@@ -810,5 +825,21 @@ body.sidebar-open .sidebar-backdrop {
     width: 80px;             /* 2x small 40px */
     height: 80px;
     font-size: 36px;         /* 2x small 18px */
+  }
+}
+
+@media (min-width: 1025px) {
+  body.admin-page .sidebar {
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+  }
+
+  body.admin-page.sidebar-closed .sidebar {
+    width: 0;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
   }
 }
