@@ -173,7 +173,7 @@ p {
   gap: 12px;
 }
 
-/* Larger screens: buttons side-by-side optionally */
+/* Splash: larger screens (side-by-side buttons) */
 @media (min-width: 600px) {
   .splash-actions {
     flex-direction: row;
@@ -511,45 +511,18 @@ body.sidebar-open .sidebar-backdrop {
 }
 
 .status-right {
-  text-align: right;
-  min-width: 160px;
-}
-
-.status-right {
   text-align: left;
 }
 
 /* =========================================
-   Login Page Refinements - Medium Screen
+   Responsive Refinements (Small & Medium Screens)
+   All size-related overrides grouped by selector.
+   - Small: viewport < 480px
+   - Medium: 480px–1024px
 ========================================= */
-@media (max-width: 1024px) and (min-width: 480px) {
-  /* Mobile header tweaks for login / index (app-bar) */
-  .app-bar {
-    height: 192px;
-    padding: 0 32px;
-    align-items: center;
-  }
 
-  .app-bar__logo {
-    height: 200px;
-    margin-right: 20px;
-  }
-
-  .app-bar__title {
-    font-size: 40px;
-    line-height: 2.6;
-  }
-
-  .btn {
-    font-size: 34px;
-    padding: 32px 48px;
-    min-height: 112px;
-    border-radius: 12px;
-  }
-}
-
+/* Small screens (<480px) */
 @media (max-width: 479px) {
-  /* Small-screen tweaks for login / index (app-bar) */
   .app-bar {
     height: 96px;
     padding: 0 16px;
@@ -572,67 +545,15 @@ body.sidebar-open .sidebar-backdrop {
     min-height: 56px;
     border-radius: 6px;
   }
-}
 
-/* =========================================
-   Admin Dashboard - Mobile Overrides
-   (ensure correct behaviour on small screens)
-========================================= */
-@media (max-width: 1024px) {
-  /* Show hamburger on admin pages */
-  body.admin-page .sidebar-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Sidebar as overlay drawer */
-  body.admin-page .sidebar {
-    position: fixed;
-    top: 96px;
-    left: 0;
-    width: min(320px, 80vw);
-    height: calc(100vh - 96px);
-    transform: translateX(-100%);
-    transition: transform 0.2s ease;
-    z-index: 20;
-    border-right: none;
-    border-bottom: none;
-  }
-
-  body.sidebar-open .sidebar {
-    transform: translateX(0);
-  }
-
-  /* Backdrop over main content when sidebar is open */
-  body.admin-page .sidebar-backdrop {
-    display: none;
-    position: fixed;
-    top: 96px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 15;
-  }
-
-  body.sidebar-open .sidebar-backdrop {
-    display: block;
-  }
-
-  body.admin-page .top-bar {
-    height: 96px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-
-  body.admin-page .brand-logo {
-    height: 110px;
-  }
-
-  /* Slightly larger fonts on mobile layout */
   body.admin-page {
-    font-size: 17px;
+    font-size: 19px;
+    line-height: 1.5;
+  }
+
+  body.admin-page .admin-secondary-grid,
+  body.admin-page .admin-summary-grid {
+    grid-template-columns: 1fr;
   }
 
   body.admin-page .brand-line-1 {
@@ -640,74 +561,11 @@ body.sidebar-open .sidebar-backdrop {
   }
 
   body.admin-page .brand-line-2 {
-    font-size: 20px;
-  }
-
-  body.admin-page .sidebar-title {
-    font-size: 13px;
-  }
-
-  body.admin-page .sidebar-item {
-    font-size: 15px;
-    padding: 10px 14px;
-    line-height: 1.4;
-  }
-
-  body.admin-page .summary-label,
-  body.admin-page .status-breakdown,
-  body.admin-page .status-meta,
-  body.admin-page .config-list li,
-  body.admin-page .helper-text {
-    font-size: 14px;
-  }
-
-  body.admin-page .card {
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-
-  /* Main content full-width on mobile */
-  body.admin-page .main-content {
-    max-width: 100%;
-    padding: 16px;
-  }
-
-  /* Stack cards vertically */
-  body.admin-page .admin-summary-grid,
-  body.admin-page .admin-secondary-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Extra-small mobile tuning for Admin (chunkier touch targets) */
-@media (max-width: 640px) {
-  body.admin-page {
-    font-size: 19px;
-    line-height: 1.5;
-  }
-
-  body.admin-page .top-bar {
-    padding: 10px 14px;
-    gap: 8px;
+    font-size: 23px;
   }
 
   body.admin-page .brand-logo {
     height: 86px;
-  }
-
-  body.admin-page .brand-line-2 {
-    font-size: 23px;
-  }
-
-  body.admin-page .sidebar {
-    width: min(360px, 90vw);
-  }
-
-  body.admin-page .sidebar-item {
-    font-size: 17px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    gap: 8px;
   }
 
   body.admin-page .btn {
@@ -731,16 +589,56 @@ body.sidebar-open .sidebar-backdrop {
     font-size: 21px;
   }
 
-  body.admin-page .summary-number {
-    font-size: 38px;
-  }
-
-  body.admin-page .summary-label,
+  body.admin-page .config-list li,
+  body.admin-page .helper-text,
   body.admin-page .status-breakdown,
   body.admin-page .status-meta,
-  body.admin-page .config-list li,
-  body.admin-page .helper-text {
+  body.admin-page .summary-label {
     font-size: 16px;
+  }
+
+  body.admin-page .main-content {
+    padding: 10px;
+  }
+
+  body.admin-page .sidebar {
+    position: fixed;
+    top: 96px;
+    left: 0;
+    width: min(360px, 90vw);
+    height: calc(100vh - 96px);
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    z-index: 20;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  body.admin-page .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 96px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 15;
+  }
+
+  body.admin-page .sidebar-item {
+    font-size: 17px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    gap: 8px;
+    line-height: 1.4;
+  }
+
+  body.admin-page .sidebar-title {
+    font-size: 13px;
+  }
+
+  body.admin-page .status-body {
+    gap: 14px;
   }
 
   body.admin-page .status-pill {
@@ -748,11 +646,146 @@ body.sidebar-open .sidebar-backdrop {
     padding: 8px 18px;
   }
 
-  body.admin-page .status-body {
-    gap: 14px;
+  body.admin-page .summary-number {
+    font-size: 38px;
+  }
+
+  body.admin-page .top-bar {
+    height: 96px;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  body.admin-page .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  body.sidebar-open .sidebar-backdrop {
+    display: block;
+  }
+}
+
+/* Medium screens (480px–1024px) */
+@media (min-width: 480px) and (max-width: 1024px) {
+  .app-bar {
+    height: 192px;
+    padding: 0 32px;
+    align-items: center;
+  }
+
+  .app-bar__logo {
+    height: 200px;
+    margin-right: 20px;
+  }
+
+  .app-bar__title {
+    font-size: 40px;
+    line-height: 2.6;
+  }
+
+  .btn {
+    font-size: 34px;
+    padding: 32px 48px;
+    min-height: 112px;
+    border-radius: 12px;
+  }
+
+  body.admin-page {
+    font-size: 17px;
+  }
+
+  body.admin-page .admin-secondary-grid,
+  body.admin-page .admin-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.admin-page .brand-line-1 {
+    font-size: 14px;
+  }
+
+  body.admin-page .brand-line-2 {
+    font-size: 20px;
+  }
+
+  body.admin-page .brand-logo {
+    height: 110px;
+  }
+
+  body.admin-page .card {
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  body.admin-page .config-list li,
+  body.admin-page .helper-text,
+  body.admin-page .status-breakdown,
+  body.admin-page .status-meta,
+  body.admin-page .summary-label {
+    font-size: 14px;
   }
 
   body.admin-page .main-content {
-    padding: 10px;
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  body.admin-page .sidebar {
+    position: fixed;
+    top: 96px;
+    left: 0;
+    width: min(320px, 80vw);
+    height: calc(100vh - 96px);
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    z-index: 20;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  body.admin-page .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 96px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 15;
+  }
+
+  body.admin-page .sidebar-item {
+    font-size: 15px;
+    padding: 10px 14px;
+    line-height: 1.4;
+  }
+
+  body.admin-page .sidebar-title {
+    font-size: 13px;
+  }
+
+  body.admin-page .top-bar {
+    height: 96px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  body.admin-page .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  body.sidebar-open .sidebar-backdrop {
+    display: block;
   }
 }
