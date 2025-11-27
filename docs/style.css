@@ -525,18 +525,18 @@ body.sidebar-open .sidebar-backdrop {
 @media (max-width: 1024px) and (min-width: 480px) {
   /* Mobile header tweaks for login / index (app-bar) */
   .app-bar {
-    height: 96px;
-    padding: 0 16px;
+    height: 160px;
+    padding: 0 32px;
     align-items: center;
   }
 
   .app-bar__logo {
-    height: 110px;
-    margin-right: 12px;
+    height: 280px;
+    margin-right: 24px;
   }
 
   .app-bar__title {
-    font-size: 20px;
+    font-size: 40px;
     line-height: 1.3;
   }
 
