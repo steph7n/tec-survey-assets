@@ -386,13 +386,15 @@ body.admin-page {
   background: transparent;
   border: none;
   color: #FFFFFF;
-  font-size: 32px; /* larger icon */
+  font-size: 32px; /* larger icon (base, overridden in media queries) */
   width: 48px;
   height: 48px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 30; /* sit above sidebar/backdrop so it remains clickable */
 }
 
 .sidebar-backdrop {
