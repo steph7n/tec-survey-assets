@@ -269,16 +269,9 @@ body.admin-page {
 }
 
 .top-bar-left,
-.top-bar-center,
 .top-bar-right {
   display: flex;
   align-items: center;
-}
-
-.top-bar-center {
-  flex: 1;
-  justify-content: center;
-  pointer-events: none; /* so chips feel non-clickable for now */
 }
 
 .brand {
@@ -297,51 +290,10 @@ body.admin-page {
   flex-direction: column;
 }
 
-@media (min-width: 1024px) {
-  .brand-text {
-    flex-direction: row;
-    align-items: baseline;
-  }
-
-  .brand-line-1 {
-    margin-right: 4px; /* small gap between the two segments */
-  }
-}
-
-.brand-line-1 {
-  font-size: 13px;
-  color: #E0E0E0;
-}
-
 .brand-line-2 {
   font-size: 20px;
   font-weight: 600;
   color: #FFFFFF;
-}
-
-/* Role chips */
-.role-chips {
-  display: flex;
-  gap: 8px;
-}
-
-.chip {
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 13px;
-  border: 1px solid #D0D0D0;
-  background-color: #FFFFFF;
-  color: #555555;
-}
-
-.chip-outline {
-  background-color: #FFFFFF;
-}
-
-.chip-filled {
-  background-color: #15417C;
-  color: #FFFFFF;
-  border-color: #15417C;
 }
 
 /* Env badge + user info */
@@ -513,8 +465,8 @@ body.admin-page {
 @media (max-width: 479px) {
   .app-bar {
     height: 96px;
-    padding: 0 16px;
     align-items: center;
+    padding: 0 16px;
   }
 
   .app-bar__logo {
@@ -529,9 +481,20 @@ body.admin-page {
 
   .btn {
     font-size: 17px;
-    padding: 16px 24px;
     min-height: 56px;
     border-radius: 6px;
+    padding: 16px 24px;
+  }
+
+  .env-badge {
+    font-size: 14px;         /* up from base 11px */
+    padding: 6px 12px;       /* up from base 4px 8px */
+  }
+
+  .user-avatar {
+    height: 40px;            /* up from base 32px */
+    font-size: 18px;         /* up from base 14px */
+    width: 40px;             /* up from base 32px */
   }
 
   body.admin-page {
@@ -544,10 +507,6 @@ body.admin-page {
     grid-template-columns: 1fr;
   }
 
-  body.admin-page .brand-line-1 {
-    font-size: 14px;
-  }
-
   body.admin-page .brand-line-2 {
     font-size: 23px;
   }
@@ -558,18 +517,18 @@ body.admin-page {
 
   body.admin-page .btn {
     font-size: 19px;
-    padding: 20px 22px;
     min-height: 68px;
     border-radius: 12px;
     font-weight: 600;
     letter-spacing: 0.01em;
+    padding: 20px 22px;
   }
 
   body.admin-page .card {
-    padding: 20px 18px;
     border-radius: 14px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     margin-bottom: 12px;
+    padding: 20px 18px;
   }
 
   body.admin-page .card-header h2,
@@ -591,48 +550,48 @@ body.admin-page {
   }
 
   body.admin-page .sidebar {
-    position: fixed;
-    top: 96px;
-    left: 0;
-    width: min(360px, 90vw);
     height: calc(100vh - 96px);
-    transform: translateX(-100%);
-    transition: transform 0.2s ease;
-    z-index: 20;
     border-right: none;
     border-bottom: none;
-  }
-
-  body.admin-page.sidebar-open .sidebar {
-    transform: translateX(0);
-    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.12);
+    left: 0;
+    position: fixed;
+    top: 96px;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    width: min(360px, 90vw);
+    z-index: 20;
   }
 
   body.admin-page .sidebar-backdrop {
-    display: none;
-    position: fixed;
-    top: 96px;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background-color: rgba(0, 0, 0, 0.4);
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 96px;
     z-index: 15;
-  }
-
-  body.admin-page.sidebar-open .sidebar-backdrop {
-    display: block;
   }
 
   body.admin-page .sidebar-item {
     font-size: 17px;
-    padding: 12px 16px;
     border-radius: 12px;
     gap: 8px;
     line-height: 1.4;
+    padding: 12px 16px;
   }
 
   body.admin-page .sidebar-title {
     font-size: 13px;
+  }
+
+  body.admin-page .sidebar-toggle {
+    align-items: center;
+    display: inline-flex;
+    font-size: 40px;   /* larger icon for small viewport */
+    height: 56px;
+    justify-content: center;
+    width: 56px;
   }
 
   body.admin-page .status-body {
@@ -640,8 +599,8 @@ body.admin-page {
   }
 
   body.admin-page .status-pill {
-    font-size: 14px;
     padding: 8px 18px;
+    font-size: 14px;
   }
 
   body.admin-page .summary-number {
@@ -650,28 +609,17 @@ body.admin-page {
 
   body.admin-page .top-bar {
     height: 96px;
-    padding: 10px 14px;
     gap: 8px;
+    padding: 10px 14px;
   }
 
-  body.admin-page .sidebar-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;   /* larger icon for small viewport */
-    width: 56px;
-    height: 56px;
+  body.admin-page.sidebar-open .sidebar {
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.12);
+    transform: translateX(0);
   }
 
-  .env-badge {
-    font-size: 14px;         /* up from base 11px */
-    padding: 6px 12px;       /* up from base 4px 8px */
-  }
-
-  .user-avatar {
-    width: 40px;             /* up from base 32px */
-    height: 40px;
-    font-size: 18px;         /* up from base 14px */
+  body.admin-page.sidebar-open .sidebar-backdrop {
+    display: block;
   }
 }
 
@@ -679,8 +627,8 @@ body.admin-page {
 @media (min-width: 480px) and (max-width: 1024px) {
   .app-bar {
     height: 192px;
-    padding: 0 32px;
     align-items: center;
+    padding: 0 32px;
   }
 
   .app-bar__logo {
@@ -695,9 +643,20 @@ body.admin-page {
 
   .btn {
     font-size: 34px;
-    padding: 32px 48px;
     min-height: 112px;
     border-radius: 12px;
+    padding: 32px 48px;
+  }
+
+  .env-badge {
+    font-size: 28px;         /* 2x small 14px */
+    padding: 12px 24px;      /* 2x small 6px 12px */
+  }
+
+  .user-avatar {
+    height: 80px;             /* 2x small 40px */
+    font-size: 36px;          /* 2x small 18px */
+    width: 80px;              /* 2x small 40px */
   }
 
   body.admin-page {
@@ -710,10 +669,6 @@ body.admin-page {
     grid-template-columns: 1fr;
   }
 
-  body.admin-page .brand-line-1 {
-    font-size: 28px;
-  }
-
   body.admin-page .brand-line-2 {
     font-size: 46px;
   }
@@ -724,18 +679,18 @@ body.admin-page {
 
   body.admin-page .btn {
     font-size: 38px;
-    padding: 40px 44px;
     min-height: 136px;
     border-radius: 24px;
     font-weight: 600;
     letter-spacing: 0.01em;
+    padding: 40px 44px;
   }
 
   body.admin-page .card {
-    padding: 40px 36px;
     border-radius: 28px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     margin-bottom: 24px;
+    padding: 40px 36px;
   }
 
   body.admin-page .card-header h2,
@@ -757,54 +712,39 @@ body.admin-page {
   }
 
   body.admin-page .sidebar {
-    position: fixed;
-    top: 192px;
-    left: 0;
-    width: min(640px, 80vw);
     height: calc(100vh - 192px);
-    transform: translateX(-100%);
-    transition: transform 0.2s ease;
-    z-index: 20;
     border-right: none;
     border-bottom: none;
-  }
-
-  body.admin-page.sidebar-open .sidebar {
-    transform: translateX(0);
-    box-shadow: 6px 0 24px rgba(0, 0, 0, 0.14);
+    left: 0;
+    position: fixed;
+    top: 192px;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    width: min(640px, 80vw);
+    z-index: 20;
   }
 
   body.admin-page .sidebar-backdrop {
-    display: none;
-    position: fixed;
-    top: 192px;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background-color: rgba(0, 0, 0, 0.4);
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 192px;
     z-index: 15;
-  }
-
-  body.admin-page.sidebar-open .sidebar-backdrop {
-    display: block;
   }
 
   body.admin-page .sidebar-item {
     font-size: 34px;
-    padding: 24px 32px;
     border-radius: 24px;
     gap: 16px;
     line-height: 1.4;
+    padding: 24px 32px;
   }
 
   body.admin-page .sidebar-title {
     font-size: 26px;
-  }
-
-  body.admin-page .top-bar {
-    height: 192px;
-    padding-top: 20px 28px;
-    gap: 16px;
   }
 
   body.admin-page .sidebar-toggle {
@@ -816,15 +756,32 @@ body.admin-page {
     height: 112px;
   }
 
-  .env-badge {
-    font-size: 28px;         /* 2x small 14px */
-    padding: 12px 24px;      /* 2x small 6px 12px */
+  body.admin-page .status-body {
+    gap: 28px;
   }
 
-  .user-avatar {
-    width: 80px;             /* 2x small 40px */
-    height: 80px;
-    font-size: 36px;         /* 2x small 18px */
+  body.admin-page .status-pill {
+    padding: 16px 36px;
+    font-size: 28px;
+  }
+
+  body.admin-page .summary-number {
+    font-size: 76px;
+  }
+
+  body.admin-page .top-bar {
+    gap: 16px;
+    height: 192px;
+    padding: 20px 28px;
+  }
+
+  body.admin-page.sidebar-open .sidebar {
+    box-shadow: 6px 0 24px rgba(0, 0, 0, 0.14);
+    transform: translateX(0);
+  }
+
+  body.admin-page.sidebar-open .sidebar-backdrop {
+    display: block;
   }
 }
 
