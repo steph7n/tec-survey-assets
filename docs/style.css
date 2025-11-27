@@ -355,17 +355,6 @@ body.admin-page {
   margin-right: 8px;
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-size: 12px;
-}
-
-.user-info-email {
-  font-weight: 500;
-}
-
 .user-avatar {
   width: 32px;
   height: 32px;
@@ -673,14 +662,6 @@ body.sidebar-open .sidebar-backdrop {
     padding: 6px 12px;       /* up from base 4px 8px */
   }
 
-  .user-info {
-    font-size: 16px;         /* up from base 12px */
-  }
-
-  .user-info-email {
-    font-weight: 600;
-  }
-
   .user-avatar {
     width: 40px;             /* up from base 32px */
     height: 40px;
@@ -823,14 +804,6 @@ body.sidebar-open .sidebar-backdrop {
   .env-badge {
     font-size: 28px;         /* 2x small 14px */
     padding: 12px 24px;      /* 2x small 6px 12px */
-  }
-
-  .user-info {
-    font-size: 32px;         /* 2x small 16px */
-  }
-
-  .user-info-email {
-    font-weight: 600;
   }
 
   .user-avatar {
