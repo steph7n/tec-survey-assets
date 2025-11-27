@@ -47,7 +47,7 @@ function getSuperadminDashboardData() {
     surveyEndDate = cfg.surveyEndDate || "";
 
     if (surveyStartDate && surveyEndDate) {
-      surveyWindowText = surveyStartDate + " – " + surveyEndDate;
+      surveyWindowText = formatSurveyWindow_(surveyStartDate, surveyEndDate);
     }
 
     if (lockStatus === "OPEN") {
@@ -77,6 +77,30 @@ function getSuperadminDashboardData() {
     lockStatus: lockStatus,
     stats: stats,
   };
+}
+
+function formatSurveyWindow_(startValue, endValue) {
+  if (!startValue || !endValue) return "";
+
+  var tz = Session.getScriptTimeZone();
+
+  // Ensure we have Date objects
+  var startDate = startValue instanceof Date ? startValue : new Date(startValue);
+  var endDate = endValue instanceof Date ? endValue : new Date(endValue);
+
+  // Fallback: if parsing failed, just concatenate the raw values
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    return String(startValue) + " - " + String(endValue);
+  }
+
+  var datePattern = "dd MMM yyyy"; // e.g. 30 Nov 2025
+  var startStr = Utilities.formatDate(startDate, tz, datePattern);
+  var endStr = Utilities.formatDate(endDate, tz, datePattern);
+
+  // Long timezone name, e.g. "Western Indonesia Time"
+  var tzLabel = Utilities.formatDate(startDate, tz, "zzzz");
+
+  return startStr + " - " + endStr + " (" + tzLabel + ")";
 }
 
 /**

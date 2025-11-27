@@ -257,7 +257,7 @@ body.admin-page {
   position: sticky;
   top: 0;
   z-index: 10;
-  height: 72px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -286,7 +286,7 @@ body.admin-page {
 }
 
 .brand-logo {
-  height: 40px;
+  height: 140px; /* match .app-bar__logo */
   width: auto;
   margin-right: 12px;
 }
@@ -296,13 +296,24 @@ body.admin-page {
   flex-direction: column;
 }
 
+@media (min-width: 1024px) {
+  .brand-text {
+    flex-direction: row;
+    align-items: baseline;
+  }
+
+  .brand-line-1 {
+    margin-right: 4px; /* small gap between the two segments */
+  }
+}
+
 .brand-line-1 {
   font-size: 13px;
   color: #E0E0E0;
 }
 
 .brand-line-2 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   color: #FFFFFF;
 }
@@ -370,12 +381,17 @@ body.admin-page {
 
 .sidebar-toggle {
   display: none;
-  margin-right: 8px;
+  margin-right: 12px;
   background: transparent;
   border: none;
   color: #FFFFFF;
-  font-size: 24px;
+  font-size: 32px; /* larger icon */
+  width: 48px;
+  height: 48px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-backdrop {
@@ -594,12 +610,6 @@ body.sidebar-open .sidebar-backdrop {
 
   body.sidebar-open .sidebar {
     transform: translateX(0);
-  }
-
-  .sidebar-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .main-content {
