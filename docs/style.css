@@ -519,28 +519,59 @@ body.sidebar-open .sidebar-backdrop {
   text-align: left;
 }
 
-/* Mobile header tweaks for login / index (app-bar) */
-.app-bar {
-  height: 96px;
-  padding: 0 16px;
-  align-items: center;
+/* =========================================
+   Login Page Refinements - Medium Screen
+========================================= */
+@media (max-width: 1024px) and (min-width: 480px) {
+  /* Mobile header tweaks for login / index (app-bar) */
+  .app-bar {
+    height: 96px;
+    padding: 0 16px;
+    align-items: center;
+  }
+
+  .app-bar__logo {
+    height: 110px;
+    margin-right: 12px;
+  }
+
+  .app-bar__title {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .btn {
+    font-size: 17px;
+    padding: 16px 24px;
+    min-height: 56px;
+    border-radius: 6px;
+  }
 }
 
-.app-bar__logo {
-  height: 110px;
-  margin-right: 12px;
-}
+@media (max-width: 479px) {
+  /* Small-screen tweaks for login / index (app-bar) */
+  .app-bar {
+    height: 96px;
+    padding: 0 16px;
+    align-items: center;
+  }
 
-.app-bar__title {
-  font-size: 20px;
-  line-height: 1.3;
-}
+  .app-bar__logo {
+    height: 100px;
+    margin-right: 10px;
+  }
 
-.btn {
-  font-size: 17px;
-  padding: 16px 24px;
-  min-height: 56px;
-  border-radius: 6px;
+  .app-bar__title {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .btn {
+    font-size: 17px;
+    padding: 16px 24px;
+    min-height: 56px;
+    border-radius: 6px;
+  }
 }
 
 /* =========================================
