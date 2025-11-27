@@ -1,25 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Tabgha Education Center School Survey</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabgha Education Center School Survey</title>
 
-  <!-- Meta refresh fallback -->
-  <meta http-equiv="refresh"
-        content="0; url=https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash" />
+    <!-- Shared CSS -->
+    <link
+      rel="stylesheet"
+      href="https://steph7n.github.io/tec-survey-assets/style.css"
+    />
 
-  <script>
-    // Preferred: JavaScript redirect
-    window.location.replace("https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash");
-  </script>
-</head>
-<body>
-  <p>
-    Redirecting to the survey portal…
-    If you are not redirected, 
-    <a href="https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash">
-      click here
-    </a>.
-  </p>
-</body>
+    <!-- Meta refresh fallback -->
+    <meta
+      http-equiv="refresh"
+      content="3; url=https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash"
+    />
+  </head>
+  <body>
+    <!-- Top Bar -->
+    <header class="app-bar">
+      <img
+        id="app-logo"
+        alt="School Logo"
+        class="app-bar__logo"
+        src="https://steph7n.github.io/tec-survey-assets/school-logo.png"
+      />
+      <div id="app-title" class="app-bar__title"></div>
+    </header>
+
+    <main class="page-container">
+      <section class="page-content">
+        <div class="card card--centered splash-card">
+          <h1 class="card-title">Checking your account…</h1>
+          <p class="text-hint">
+            We’re taking you to the survey hub. If nothing happens, use the button below.
+          </p>
+          <a
+            id="redirect-link"
+            class="btn btn--primary btn--block"
+            href="https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash"
+          >
+            Go to survey hub
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var redirectUrl =
+          "https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=splash";
+
+        var titleEl = document.getElementById("app-title");
+        var year = new Date().getFullYear();
+        if (titleEl) {
+          titleEl.textContent = "School Survey " + year;
+        }
+
+        // Keep the CTA link in sync with the redirect target
+        var redirectLink = document.getElementById("redirect-link");
+        if (redirectLink) {
+          redirectLink.href = redirectUrl;
+        }
+
+        // Preferred redirect path
+        window.setTimeout(function () {
+          window.location.replace(redirectUrl);
+        }, 500);
+      })();
+    </script>
+  </body>
 </html>
