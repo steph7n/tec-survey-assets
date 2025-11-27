@@ -661,14 +661,28 @@ body.sidebar-open .sidebar-backdrop {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-size: 40px;   /* larger icon for small viewport */
+    width: 56px;
+    height: 56px;
   }
 
-  body.sidebar-open .sidebar {
-    transform: translateX(0);
+  .env-badge {
+    font-size: 14px;         /* up from base 11px */
+    padding: 6px 12px;       /* up from base 4px 8px */
   }
 
-  body.sidebar-open .sidebar-backdrop {
-    display: block;
+  .user-info {
+    font-size: 16px;         /* up from base 12px */
+  }
+
+  .user-info-email {
+    font-weight: 600;
+  }
+
+  .user-avatar {
+    width: 40px;             /* up from base 32px */
+    height: 40px;
+    font-size: 18px;         /* up from base 14px */
   }
 }
 
@@ -755,7 +769,7 @@ body.sidebar-open .sidebar-backdrop {
 
   body.admin-page .sidebar {
     position: fixed;
-    top: 96px;
+    top: 192px;
     left: 0;
     width: min(640px, 80vw);
     height: calc(100vh - 192px);
@@ -799,13 +813,27 @@ body.sidebar-open .sidebar-backdrop {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-size: 80px;   /* 2x small viewport icon size */
+    width: 112px;
+    height: 112px;
   }
 
-  body.sidebar-open .sidebar {
-    transform: translateX(0);
+  .env-badge {
+    font-size: 28px;         /* 2x small 14px */
+    padding: 12px 24px;      /* 2x small 6px 12px */
   }
 
-  body.sidebar-open .sidebar-backdrop {
-    display: block;
+  .user-info {
+    font-size: 32px;         /* 2x small 16px */
+  }
+
+  .user-info-email {
+    font-weight: 600;
+  }
+
+  .user-avatar {
+    width: 80px;             /* 2x small 40px */
+    height: 80px;
+    font-size: 36px;         /* 2x small 18px */
   }
 }
