@@ -94,7 +94,7 @@ p {
 }
 
 .card--centered {
-  max-width: 420px;
+  max-width: 840px;
   margin: auto;
 }
 
@@ -169,18 +169,8 @@ p {
 
 .splash-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
-}
-
-/* Splash: larger screens (side-by-side buttons) */
-@media (min-width: 600px) {
-  .splash-actions {
-    flex-direction: row;
-  }
-  .splash-btn {
-    flex: 1;
-  }
 }
 
 /* =========================================
@@ -338,17 +328,6 @@ body.admin-page {
   z-index: 30; /* sit above sidebar/backdrop so it remains clickable */
 }
 
-.sidebar-backdrop {
-  display: none;
-  position: fixed;
-  top: 80px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 15;
-}
-
 /* Main layout: sidebar + content */
 .layout {
   display: flex;
@@ -362,7 +341,29 @@ body.admin-page {
   border-right: 1px solid #0D305E;
   padding: 16px 12px 24px;
   color: #FFFFFF;
+  height: calc(100vh - 80px);
+  position: sticky;
+  top: 80px;
   transition: transform 0.2s ease, width 0.2s ease, padding 0.2s ease;
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 15;
+}
+
+body.admin-page.sidebar-closed .sidebar {
+  border: none;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 0;
 }
 
 .sidebar-section {
@@ -464,8 +465,8 @@ body.admin-page {
 /* Small screens (<480px) */
 @media (max-width: 479px) {
   .app-bar {
-    height: 96px;
     align-items: center;
+    height: 96px;
     padding: 0 16px;
   }
 
@@ -480,9 +481,9 @@ body.admin-page {
   }
 
   .btn {
+    border-radius: 6px;
     font-size: 17px;
     min-height: 56px;
-    border-radius: 6px;
     padding: 16px 24px;
   }
 
@@ -491,9 +492,17 @@ body.admin-page {
     padding: 6px 12px;       /* up from base 4px 8px */
   }
 
+  .splash-actions {
+    flex-direction: column;
+  }
+
+  .text-secondary {
+    font-size: 12px;
+  }
+
   .user-avatar {
-    height: 40px;            /* up from base 32px */
     font-size: 18px;         /* up from base 14px */
+    height: 40px;            /* up from base 32px */
     width: 40px;             /* up from base 32px */
   }
 
@@ -516,11 +525,11 @@ body.admin-page {
   }
 
   body.admin-page .btn {
-    font-size: 19px;
-    min-height: 68px;
     border-radius: 12px;
+    font-size: 19px;
     font-weight: 600;
     letter-spacing: 0.01em;
+    min-height: 68px;
     padding: 20px 22px;
   }
 
@@ -550,9 +559,9 @@ body.admin-page {
   }
 
   body.admin-page .sidebar {
-    height: calc(100vh - 96px);
-    border-right: none;
     border-bottom: none;
+    border-right: none;
+    height: calc(100vh - 96px);
     left: 0;
     position: fixed;
     top: 96px;
@@ -574,8 +583,8 @@ body.admin-page {
   }
 
   body.admin-page .sidebar-item {
-    font-size: 17px;
     border-radius: 12px;
+    font-size: 17px;
     gap: 8px;
     line-height: 1.4;
     padding: 12px 16px;
@@ -599,8 +608,8 @@ body.admin-page {
   }
 
   body.admin-page .status-pill {
-    padding: 8px 18px;
     font-size: 14px;
+    padding: 8px 18px;
   }
 
   body.admin-page .summary-number {
@@ -608,9 +617,17 @@ body.admin-page {
   }
 
   body.admin-page .top-bar {
-    height: 96px;
     gap: 8px;
+    height: 96px;
     padding: 10px 14px;
+  }
+
+  body.admin-page.sidebar-closed .sidebar {
+    border: none;
+    min-width: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 0;
   }
 
   body.admin-page.sidebar-open .sidebar {
@@ -621,13 +638,23 @@ body.admin-page {
   body.admin-page.sidebar-open .sidebar-backdrop {
     display: block;
   }
+
+  h1 {
+    font-size: 21px;
+    margin: 0 0 16px;
+  }
+
+  h2 {
+    font-size: 19px;
+    margin: 24px 0 12px;
+  }
 }
 
 /* Medium screens (480px–1024px) */
 @media (min-width: 480px) and (max-width: 1024px) {
   .app-bar {
-    height: 192px;
     align-items: center;
+    height: 192px;
     padding: 0 32px;
   }
 
@@ -642,9 +669,9 @@ body.admin-page {
   }
 
   .btn {
+    border-radius: 12px;
     font-size: 34px;
     min-height: 112px;
-    border-radius: 12px;
     padding: 32px 48px;
   }
 
@@ -653,9 +680,17 @@ body.admin-page {
     padding: 12px 24px;      /* 2x small 6px 12px */
   }
 
+  .splash-actions {
+    flex-direction: column;
+  }
+
+  .text-secondary {
+    font-size: 24px;
+  }
+
   .user-avatar {
-    height: 80px;             /* 2x small 40px */
     font-size: 36px;          /* 2x small 18px */
+    height: 80px;             /* 2x small 40px */
     width: 80px;              /* 2x small 40px */
   }
 
@@ -678,11 +713,11 @@ body.admin-page {
   }
 
   body.admin-page .btn {
-    font-size: 38px;
-    min-height: 136px;
     border-radius: 24px;
+    font-size: 38px;
     font-weight: 600;
     letter-spacing: 0.01em;
+    min-height: 136px;
     padding: 40px 44px;
   }
 
@@ -712,9 +747,9 @@ body.admin-page {
   }
 
   body.admin-page .sidebar {
-    height: calc(100vh - 192px);
-    border-right: none;
     border-bottom: none;
+    border-right: none;
+    height: calc(100vh - 192px);
     left: 0;
     position: fixed;
     top: 192px;
@@ -736,8 +771,8 @@ body.admin-page {
   }
 
   body.admin-page .sidebar-item {
-    font-size: 34px;
     border-radius: 24px;
+    font-size: 34px;
     gap: 16px;
     line-height: 1.4;
     padding: 24px 32px;
@@ -748,12 +783,12 @@ body.admin-page {
   }
 
   body.admin-page .sidebar-toggle {
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
+    display: inline-flex;
     font-size: 80px;   /* 2x small viewport icon size */
-    width: 112px;
     height: 112px;
+    justify-content: center;
+    width: 112px;
   }
 
   body.admin-page .status-body {
@@ -761,8 +796,8 @@ body.admin-page {
   }
 
   body.admin-page .status-pill {
-    padding: 16px 36px;
     font-size: 28px;
+    padding: 16px 36px;
   }
 
   body.admin-page .summary-number {
@@ -775,6 +810,14 @@ body.admin-page {
     padding: 20px 28px;
   }
 
+  body.admin-page.sidebar-closed .sidebar {
+    border: none;
+    min-width: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 0;
+  }
+
   body.admin-page.sidebar-open .sidebar {
     box-shadow: 6px 0 24px rgba(0, 0, 0, 0.14);
     transform: translateX(0);
@@ -783,20 +826,14 @@ body.admin-page {
   body.admin-page.sidebar-open .sidebar-backdrop {
     display: block;
   }
-}
 
-@media (min-width: 1025px) {
-  body.admin-page .sidebar {
-    position: sticky;
-    top: 80px;
-    height: calc(100vh - 80px);
+  h1 {
+    font-size: 42px;
+    margin: 0 0 16px;
   }
 
-  body.admin-page.sidebar-closed .sidebar {
-    width: 0;
-    min-width: 0;
-    padding: 0;
-    border: none;
-    overflow: hidden;
+  h2 {
+    font-size: 38px;
+    margin: 24px 0 12px;
   }
 }

@@ -5,8 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Parent Login – Tabgha School Survey</title>
 
-  <!-- Shared CSS from GitHub Pages -->
+  <!-- Local preview CSS -->
   <link
+    id="localStylesheet"
+    rel="stylesheet"
+    href="../docs/style.css"
+  />
+
+  <!-- Hosted CSS for production -->
+  <link
+    id="gasStylesheet"
     rel="stylesheet"
     href="https://steph7n.github.io/tec-survey-assets/style.css"
   />
@@ -19,7 +27,7 @@
       id="app-logo"
       alt="School Logo"
       class="app-bar__logo"
-      src="https://steph7n.github.io/tec-survey-assets/school-logo.png"
+      src="../docs/school-logo.png"
     />
     <div id="app-title" class="app-bar__title"></div>
   </header>
@@ -69,6 +77,29 @@
 
   <script>
     (function () {
+      var host = window.location.hostname;
+      var isLocal =
+        host === "localhost" ||
+        host === "127.0.0.1" ||
+        host.endsWith(".github.io");
+
+      // Toggle CSS source
+      var localCss = document.getElementById("localStylesheet");
+      var gasCss = document.getElementById("gasStylesheet");
+      if (localCss && gasCss) {
+        if (isLocal) {
+          gasCss.disabled = true;
+        } else {
+          localCss.disabled = true;
+        }
+      }
+
+      // Swap logo source when remote
+      var logo = document.getElementById("app-logo");
+      if (logo && !isLocal) {
+        logo.src = "https://steph7n.github.io/tec-survey-assets/school-logo.png";
+      }
+
       // Detect whether this is running inside the real Apps Script web app
       const serverBaseUrl =
         (document.body && document.body.getAttribute("data-base-url")) || "";

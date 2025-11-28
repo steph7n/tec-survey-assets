@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tabgha Education Center School Survey</title>
 
-    <!-- Shared CSS -->
+    <!-- Local preview CSS -->
     <link
+      id="localStylesheet"
+      rel="stylesheet"
+      href="./style.css"
+    />
+
+    <!-- Hosted CSS fallback -->
+    <link
+      id="remoteStylesheet"
       rel="stylesheet"
       href="https://steph7n.github.io/tec-survey-assets/style.css"
     />
@@ -24,7 +32,7 @@
         id="app-logo"
         alt="School Logo"
         class="app-bar__logo"
-        src="https://steph7n.github.io/tec-survey-assets/school-logo.png"
+        src="./school-logo.png"
       />
       <div id="app-title" class="app-bar__title"></div>
     </header>
@@ -51,6 +59,27 @@
       (function () {
         var redirectUrl =
           "https://script.google.com/macros/s/AKfycbzVNo2axMG4WFGj_46Vv_c5SSMg-Wbw1XhHqU5ci7F-IrsfST-bqJgaNLL57uU08WQy6g/exec?page=splash";
+
+        var host = window.location.hostname;
+        var isLocal =
+          host === "localhost" ||
+          host === "127.0.0.1" ||
+          host.endsWith(".github.io");
+
+        var localCss = document.getElementById("localStylesheet");
+        var remoteCss = document.getElementById("remoteStylesheet");
+        if (localCss && remoteCss) {
+          if (isLocal) {
+            remoteCss.disabled = true;
+          } else {
+            localCss.disabled = true;
+          }
+        }
+
+        var logo = document.getElementById("app-logo");
+        if (logo && !isLocal) {
+          logo.src = "https://steph7n.github.io/tec-survey-assets/school-logo.png";
+        }
 
         var titleEl = document.getElementById("app-title");
         var year = new Date().getFullYear();

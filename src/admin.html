@@ -31,15 +31,22 @@
 
         var localCss = document.getElementById("localStylesheet");
         var gasCss = document.getElementById("gasStylesheet");
+        var brandLogo = document.getElementById("brandLogo");
 
-        if (!localCss || !gasCss) return;
+        if (localCss && gasCss) {
+          if (isLocal) {
+            // Local / GitHub preview
+            gasCss.disabled = true;
+          } else {
+            // Apps Script runtime (.script.googleusercontent.com)
+            localCss.disabled = true;
+          }
+        }
 
-        if (isLocal) {
-          // Local / GitHub preview
-          gasCss.disabled = true;
-        } else {
-          // Apps Script runtime (.script.googleusercontent.com)
-          localCss.disabled = true;
+        if (brandLogo) {
+          brandLogo.src = isLocal
+            ? "../docs/school-logo.png"
+            : "https://steph7n.github.io/tec-survey-assets/school-logo.png";
         }
       })();
     </script>
@@ -59,7 +66,8 @@
         <div class="brand">
           <!-- Update src to your actual GitHub Pages logo path -->
           <img
-            src="https://steph7n.github.io/tec-survey-assets/school-logo.png"
+            id="brandLogo"
+            src="../docs/school-logo.png"
             alt="Tabgha Education Center logo"
             class="brand-logo"
           />
