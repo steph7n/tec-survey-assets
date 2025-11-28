@@ -297,20 +297,6 @@ body.admin-page {
   margin-right: 8px;
 }
 
-.user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #15417C;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
-  margin-left: 8px;
-}
-
 .sidebar-toggle {
   display: none;
   margin-right: 12px;
