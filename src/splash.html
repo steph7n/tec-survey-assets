@@ -5,17 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tabgha Education Center School Survey</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <!-- Shared CSS -->
+  <link
+    rel="stylesheet"
+    href="https://steph7n.github.io/tec-survey-assets/style.css"
+  />
 </head>
 
-<body>
+<body data-base-url="<?!= baseUrl ?>">
   <!-- Top Bar -->
   <header class="app-bar">
     <img
       id="app-logo"
       alt="School Logo"
       class="app-bar__logo"
-      src="school-logo.png"
+      src="https://steph7n.github.io/tec-survey-assets/school-logo.png"
     />
     <div id="app-title" class="app-bar__title"></div>
   </header>
@@ -31,7 +35,8 @@
         <div class="splash-actions">
           <a
             id="parent-login"
-            href="https://script.google.com/macros/s/AKfycbyiFuUWnf5gbhiibCCPzgOLrgrN_doMg5fb5JHyLnzpgx2bTH4uSYLT0oifXPO2bdnHvA/exec?page=loginParent"
+            href="https://script.google.com/macros/s/AKfycbzVNo2axMG4WFGj_46Vv_c5SSMg-Wbw1XhHqU5ci7F-IrsfST-bqJgaNLL57uU08WQy6g/exec?page=loginParent"
+            target="_top"
             class="btn btn--primary btn--block splash-btn"
           >
             Login as Parent
@@ -39,7 +44,8 @@
 
           <a
             id="faculty-login"
-            href="https://accounts.google.com/AccountChooser?continue=https%3A%2F%2Fscript.google.com%2Fa%2Fmacros%2Ftabgha.education%2Fs%2FAKfycbxdjJ5ffCbMKyLqjQb-z2Ny5jvwX0J2dLC-NDvGnQIHvak2mPWhHDoZXjd45oG9WP_z3g%2Fexec%3Fpage%3DloginFaculty"
+            href="https://accounts.google.com/AccountChooser?continue=https%3A%2F%2Fscript.google.com%2Fa%2Fmacros%2Ftabgha.education%2Fs%2FAKfycbxAKlA5JufZQ3qsLMrO6lZ3xS0OeAyrNOF_DTV7T_-z86DnR7oDjuJSiVHywNIyHpWPYQ%2Fexec%3Fpage%3DloginFaculty"
+            target="_top"
             class="btn btn--outlined btn--block splash-btn"
           >
             Login as Student / Faculty

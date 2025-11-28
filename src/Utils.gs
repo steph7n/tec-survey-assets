@@ -31,7 +31,7 @@ function getConfigAsObject(sheet) {
  */
 function getCurrentConfigFileId() {
   try {
-    const coreSS = SpreadsheetApp.getActive();
+    const coreSS = SpreadsheetApp.openById(SURVEY_CORE_DB_ID);
     const cfgSheet = coreSS.getSheetByName("Config");
     if (!cfgSheet) return "";
 

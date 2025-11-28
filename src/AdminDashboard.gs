@@ -10,8 +10,7 @@
  */
 function getSuperadminDashboardData() {
   ensureSuperadmin_();
-  // If this script is container-bound to Survey Core DB:
-  var coreDbId = SpreadsheetApp.getActiveSpreadsheet().getId();
+  var coreDbId = SURVEY_CORE_DB_ID;
 
   var currentConfigFileId = getCurrentConfigFileId(); // from Utils.gs
   var debugMode = false;

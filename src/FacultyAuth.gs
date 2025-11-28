@@ -15,13 +15,7 @@
  */
 function getSuperadminEmail() {
   try {
-    // If your script is standalone and SURVEY_CORE_DB_ID is a constant:
-    //   const coreSs = SpreadsheetApp.openById(SURVEY_CORE_DB_ID);
-    //
-    // If the web app is container-bound to the Survey Core DB, you can also do:
-    //   const coreSs = SpreadsheetApp.getActiveSpreadsheet();
-
-    const coreSs = SpreadsheetApp.getActiveSpreadsheet();
+    const coreSs = SpreadsheetApp.openById(SURVEY_CORE_DB_ID);
     const ownerEmail = coreSs.getOwner().getEmail();
     return ownerEmail ? ownerEmail.toLowerCase() : "";
   } catch (e) {
@@ -178,4 +172,3 @@ function isActiveStudent(email) {
 
   return false;
 }
-

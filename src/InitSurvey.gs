@@ -12,8 +12,9 @@
 
 function initiateSurvey() {
   const ui = SpreadsheetApp.getUi();
-  const coreFile = DriveApp.getFileById(SpreadsheetApp.getActive().getId());
-  const coreFolder = coreFile.getParents().next(); // assumes exactly 1 folder
+  const coreFile = DriveApp.getFileById(SURVEY_CORE_DB_ID);
+  const coreParents = coreFile.getParents();
+  const coreFolder = coreParents.hasNext() ? coreParents.next() : null;
 
   const TEMPLATE_ID = "1n_Sm0-fLeHswgVOy5EUCs_1PcrZruw1hPVPnAvckIEQ";
 
@@ -170,13 +171,14 @@ function initiateSurvey() {
   const newFileName = `Survey Config ${surveyYear}`;
   const templateFile = DriveApp.getFileById(TEMPLATE_ID);
 
-  const newFile = templateFile.makeCopy(newFileName, coreFolder);
+  const destinationFolder = coreFolder || DriveApp.getRootFolder();
+  const newFile = templateFile.makeCopy(newFileName, destinationFolder);
   const newSpreadsheet = SpreadsheetApp.openById(newFile.getId());
 
   // ======================================
   // UPDATE Survey Core Database: store this new Yearly Config File ID
   // ======================================
-  const coreSS = SpreadsheetApp.getActive();
+  const coreSS = SpreadsheetApp.openById(SURVEY_CORE_DB_ID);
   const coreConfigSheet = coreSS.getSheetByName("Config");
   if (!coreConfigSheet) {
     throw new Error("Survey Core Database is missing a 'Config' sheet for storing currentConfigFile.");
@@ -252,4 +254,3 @@ function initiateSurvey() {
     `Survey initialization complete.\n\nCreated: ${newFileName}\nLocation: Same folder as Survey Core Database`
   );
 }
-
