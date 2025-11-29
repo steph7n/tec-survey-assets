@@ -238,17 +238,6 @@
             </div>
             <div class="card-body quick-actions-body">
               <button
-                class="btn btn--primary btn--block"
-                id="btnInitiateSurvey"
-              >
-                Initiate New Survey Year
-              </button>
-              <p class="helper-text">
-                Creates a fresh Yearly Config File from the template and
-                updates the Core DB reference.
-              </p>
-
-              <button
                 class="btn btn--outlined btn--block"
                 id="btnToggleSurvey"
               >
@@ -303,12 +292,6 @@
         });
 
         // 2. Wire buttons (client-side only; server calls below)
-        document
-          .getElementById("btnInitiateSurvey")
-          .addEventListener("click", onInitiateSurveyClick);
-        document
-          .getElementById("btnInitiateSurveySidebar")
-          .addEventListener("click", onInitiateSurveyClick);
         document
           .getElementById("btnToggleSurvey")
           .addEventListener("click", onToggleSurveyClick);
@@ -378,7 +361,6 @@
       // Expected shape of data (you can adjust in .gs):
       // {
       //   debugMode: true/false,
-      //   loggedInEmail: "…",
       //   surveyYear: 2025,
       //   surveyStatus: "NOT STARTED"|"ACTIVE"|"CLOSED",
       //   surveyWindowText: "10–24 November 2025",
@@ -399,14 +381,6 @@
       // }
       function populateDashboard(data) {
         if (!data) return;
-
-        // User info
-        if (data.loggedInEmail) {
-          document.getElementById("userEmail").textContent =
-            data.loggedInEmail;
-          document.getElementById("userAvatarInitial").textContent =
-            data.loggedInEmail.charAt(0).toUpperCase();
-        }
 
         // Debug badge
         if (data.debugMode) {
@@ -468,6 +442,31 @@
         );
         document.getElementById("lockStatusDisplay").textContent =
           data.lockStatus || "—";
+
+        var toggleBtn = document.getElementById("btnToggleSurvey");
+        var sidebarToggleBtn = document.getElementById("btnOpenCloseSidebar");
+
+        var canToggle = data.canToggleSurvey !== false;
+        var reason = data.toggleDisabledReason || "";
+
+        [toggleBtn, sidebarToggleBtn].forEach(function (btn) {
+          if (!btn) return;
+          if (!canToggle) {
+            btn.disabled = true;
+            if (btn.classList && btn.classList.contains("btn")) {
+              btn.classList.add("btn--disabled");
+            }
+            if (reason) {
+              btn.title = reason;
+            }
+          } else {
+            btn.disabled = false;
+            if (btn.classList && btn.classList.contains("btn")) {
+              btn.classList.remove("btn--disabled");
+            }
+            btn.removeAttribute("title");
+          }
+        });
       }
 
       function setSurveyStatusPill(status) {
@@ -493,42 +492,6 @@
       }
 
       // ---- Button handlers ----
-      function onInitiateSurveyClick() {
-        if (
-          !window.google ||
-          !google.script ||
-          !google.script.run
-        ) {
-          alert(
-            "This button only works when deployed as a web app."
-          );
-          return;
-        }
-
-        if (
-          !confirm(
-            "Initiate a new survey year?\n\nThis will create a fresh Yearly Config File from the template. Continue?"
-          )
-        ) {
-          return;
-        }
-
-        google.script.run
-          .withSuccessHandler(function (msg) {
-            alert(msg || "Survey year initiated.");
-            google.script.run
-              .withSuccessHandler(populateDashboard)
-              .getSuperadminDashboardData();
-          })
-          .withFailureHandler(function (err) {
-            console.error("initiateSurvey failed", err);
-            alert(
-              "Failed to initiate survey. See console for details."
-            );
-          })
-          .initiateSurvey(); // existing function in InitSurvey.gs
-      }
-
       function onToggleSurveyClick() {
         if (
           !window.google ||

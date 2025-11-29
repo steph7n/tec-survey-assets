@@ -30,52 +30,95 @@ function getSuperadminDashboardData() {
     errors: 0,
   };
 
-  if (currentConfigFileId) {
-    var ss = SpreadsheetApp.openById(currentConfigFileId);
-    var configSheet = ss.getSheetByName("Config");
-    if (!configSheet) {
-      throw new Error("Config sheet missing in Yearly Config file.");
-    }
-
-    var cfg = getConfigAsObject(configSheet); // { surveyYear: "...", debugMode: "...", ... }
-
-    debugMode = cfg.debugMode === true || String(cfg.debugMode).toUpperCase() === "TRUE";
-    surveyYear = cfg.surveyYear || "";
-    lockStatus = cfg.lockStatus || "";
-    surveyStartDate = cfg.surveyStartDate || "";
-    surveyEndDate = cfg.surveyEndDate || "";
-
-    if (surveyStartDate && surveyEndDate) {
-      surveyWindowText = formatSurveyWindow_(surveyStartDate, surveyEndDate);
-    }
-
-    if (lockStatus === "OPEN") {
-      surveyStatus = "ACTIVE";
-    } else if (lockStatus === "CLOSED") {
-      surveyStatus = "CLOSED";
-    }
-
-    // TODO (later): compute real stats from ResponseDB
-    // For now, we leave defaults in `stats`.
-  }
-
-  return {
+  var result = {
     debugMode: debugMode,
     loggedInEmail: Session.getActiveUser().getEmail() || "",
     surveyYear: surveyYear,
     surveyStatus: surveyStatus,
     surveyWindowText: surveyWindowText,
-    configFileName: surveyYear
-      ? surveyYear + "_Tabgha_Survey_Config"
-      : "Yearly Config",
-    configFileUrl: currentConfigFileId
-      ? "https://docs.google.com/spreadsheets/d/" + currentConfigFileId + "/edit"
-      : "",
+    configFileName: "Yearly Config",
+    configFileUrl: "",
     coreDbId: coreDbId,
     currentConfigId: currentConfigFileId || "",
     lockStatus: lockStatus,
     stats: stats,
+    canToggleSurvey: false,
+    toggleDisabledReason: "Toggle action is currently unavailable.",
   };
+
+  if (!currentConfigFileId) {
+    result.toggleDisabledReason = "No current config file is set in the Core DB.";
+    return result;
+  }
+
+  var ss;
+  try {
+    ss = SpreadsheetApp.openById(currentConfigFileId);
+  } catch (e) {
+    result.toggleDisabledReason =
+      "Unable to open the current config file. Check the file ID in the Core DB.";
+    return result;
+  }
+
+  var configSheet = ss.getSheetByName("Config");
+  if (!configSheet) {
+    result.toggleDisabledReason = "The Yearly Config file is missing the Config sheet.";
+    return result;
+  }
+
+  var cfg = getConfigAsObject(configSheet); // { surveyYear: "...", debugMode: "...", ... }
+
+  debugMode = cfg.debugMode === true || String(cfg.debugMode).toUpperCase() === "TRUE";
+  surveyYear = cfg.surveyYear || "";
+  lockStatus = cfg.lockStatus || "";
+  surveyStartDate = cfg.surveyStartDate || "";
+  surveyEndDate = cfg.surveyEndDate || "";
+
+  if (surveyStartDate && surveyEndDate) {
+    surveyWindowText = formatSurveyWindow_(surveyStartDate, surveyEndDate);
+  }
+
+  if (lockStatus === "OPEN") {
+    surveyStatus = "ACTIVE";
+  } else if (lockStatus === "CLOSED") {
+    surveyStatus = "CLOSED";
+  }
+
+  var surveyYearNum = surveyYear ? parseInt(String(surveyYear), 10) : NaN;
+  var currentYear = new Date().getFullYear();
+
+  if (!surveyYear || isNaN(surveyYearNum)) {
+    result.canToggleSurvey = false;
+    result.toggleDisabledReason =
+      "surveyYear is not set correctly in the Yearly Config file.";
+  } else if (surveyYearNum !== currentYear) {
+    result.canToggleSurvey = false;
+    result.toggleDisabledReason =
+      "Yearly config surveyYear (" +
+      surveyYearNum +
+      ") does not match the current year (" +
+      currentYear +
+      ").";
+  } else {
+    result.canToggleSurvey = true;
+    result.toggleDisabledReason = "";
+  }
+
+  result.debugMode = debugMode;
+  result.surveyYear = surveyYear;
+  result.surveyStatus = surveyStatus;
+  result.surveyWindowText = surveyWindowText;
+  result.configFileName = surveyYear
+    ? surveyYear + "_Tabgha_Survey_Config"
+    : "Yearly Config";
+  result.configFileUrl = currentConfigFileId
+    ? "https://docs.google.com/spreadsheets/d/" + currentConfigFileId + "/edit"
+    : "";
+  result.currentConfigId = currentConfigFileId || "";
+  result.lockStatus = lockStatus;
+  result.stats = stats;
+
+  return result;
 }
 
 function formatSurveyWindow_(startValue, endValue) {
