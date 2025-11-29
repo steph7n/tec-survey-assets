@@ -512,12 +512,6 @@ body.admin-page.sidebar-closed .sidebar {
     font-size: 12px;
   }
 
-  .user-avatar {
-    font-size: 18px;         /* up from base 14px */
-    height: 40px;            /* up from base 32px */
-    width: 40px;             /* up from base 32px */
-  }
-
   body.admin-page {
     font-size: 19px;
     line-height: 1.5;
@@ -698,12 +692,6 @@ body.admin-page.sidebar-closed .sidebar {
 
   .text-secondary {
     font-size: 24px;
-  }
-
-  .user-avatar {
-    font-size: 36px;          /* 2x small 18px */
-    height: 80px;             /* 2x small 40px */
-    width: 80px;              /* 2x small 40px */
   }
 
   body.admin-page {

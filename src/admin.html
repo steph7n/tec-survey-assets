@@ -31,7 +31,6 @@
 
         var localCss = document.getElementById("localStylesheet");
         var gasCss = document.getElementById("gasStylesheet");
-        var brandLogo = document.getElementById("brandLogo");
 
         if (localCss && gasCss) {
           if (isLocal) {
@@ -43,10 +42,18 @@
           }
         }
 
-        if (brandLogo) {
+        function applyBrandLogo() {
+          var brandLogo = document.getElementById("brandLogo");
+          if (!brandLogo) return;
           brandLogo.src = isLocal
             ? "../docs/school-logo.png"
             : "https://steph7n.github.io/tec-survey-assets/school-logo.png";
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", applyBrandLogo);
+        } else {
+          applyBrandLogo();
         }
       })();
     </script>
@@ -67,7 +74,7 @@
           <!-- Update src to your actual GitHub Pages logo path -->
           <img
             id="brandLogo"
-            src="../docs/school-logo.png"
+            src="https://steph7n.github.io/tec-survey-assets/school-logo.png"
             alt="Tabgha Education Center logo"
             class="brand-logo"
           />
@@ -104,7 +111,7 @@
           </button>
           <button class="sidebar-item" id="btnInitiateSurveySidebar">
             <span class="sidebar-icon">🗓️</span>
-            <span class="sidebar-label">Initiate New Survey Year</span>
+            <span class="sidebar-label">Initiate / Configure Survey</span>
           </button>
           <button class="sidebar-item" id="btnOpenCloseSidebar">
             <span class="sidebar-icon">🔓</span>
@@ -259,11 +266,17 @@
               <ul class="config-list">
                 <li>
                   <strong>Core DB ID:</strong>
-                  <span id="coreDbId">—</span>
+                  <span class="id-chip">
+                    <span id="coreDbId" class="id-chip__value">—</span>
+                    <button class="id-chip__copy" data-copy-target="coreDbId" aria-label="Copy Core DB ID">⧉</button>
+                  </span>
                 </li>
                 <li>
                   <strong>Current Config File ID:</strong>
-                  <span id="currentConfigId">—</span>
+                  <span class="id-chip">
+                    <span id="currentConfigId" class="id-chip__value">—</span>
+                    <button class="id-chip__copy" data-copy-target="currentConfigId" aria-label="Copy Current Config File ID">⧉</button>
+                  </span>
                 </li>
                 <li>
                   <strong>Debug mode:</strong>
@@ -291,6 +304,14 @@
           el.textContent = currentYear;
         });
 
+        if (typeof gotoPage !== "function") {
+          window.gotoPage = function (pageName) {
+            var url = new URL(window.location.href);
+            url.searchParams.set("page", pageName);
+            window.location.href = url.toString();
+          };
+        }
+
         // 2. Wire buttons (client-side only; server calls below)
         document
           .getElementById("btnToggleSurvey")
@@ -298,6 +319,21 @@
         document
           .getElementById("btnOpenCloseSidebar")
           .addEventListener("click", onToggleSurveyClick);
+
+        var btnInitiateSidebar = document.getElementById(
+          "btnInitiateSurveySidebar"
+        );
+        if (btnInitiateSidebar) {
+          btnInitiateSidebar.addEventListener("click", function () {
+            if (typeof gotoPage === "function") {
+              gotoPage("adminInitiateSurvey");
+            } else {
+              var url = new URL(window.location.href);
+              url.searchParams.set("page", "adminInitiateSurvey");
+              window.location.href = url.toString();
+            }
+          });
+        }
 
         // 3. Fetch dashboard data from Apps Script (if available)
         if (window.google && google.script && google.script.run) {
@@ -467,6 +503,8 @@
             btn.removeAttribute("title");
           }
         });
+
+        wireCopyButtons();
       }
 
       function setSurveyStatusPill(status) {
@@ -489,6 +527,39 @@
           pill.classList.add("status-pill-neutral");
         }
         pill.textContent = label;
+      }
+
+      function wireCopyButtons() {
+        var copyButtons = document.querySelectorAll(".id-chip__copy");
+        copyButtons.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var targetId = btn.getAttribute("data-copy-target");
+            if (!targetId) return;
+            var el = document.getElementById(targetId);
+            if (!el) return;
+            var text = el.textContent || "";
+            if (!text || text === "—") return;
+            navigator.clipboard && navigator.clipboard.writeText
+              ? navigator.clipboard.writeText(text)
+              : copyFallback(text);
+          });
+        });
+      }
+
+      function copyFallback(text) {
+        var temp = document.createElement("textarea");
+        temp.value = text;
+        temp.style.position = "fixed";
+        temp.style.top = "-1000px";
+        document.body.appendChild(temp);
+        temp.focus();
+        temp.select();
+        try {
+          document.execCommand("copy");
+        } catch (e) {
+          console.warn("Copy failed", e);
+        }
+        document.body.removeChild(temp);
       }
 
       // ---- Button handlers ----

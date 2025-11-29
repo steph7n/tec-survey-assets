@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base target="_top" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tabgha Education Center School Survey – Initiate / Configure Survey</title>
+
+    <!-- Local preview CSS -->
+    <link
+      id="localStylesheet"
+      rel="stylesheet"
+      href="../docs/style.css"
+    />
+
+    <!-- Hosted CSS -->
+    <link
+      id="gasStylesheet"
+      rel="stylesheet"
+      href="https://steph7n.github.io/tec-survey-assets/style.css"
+    />
+
+    <!-- Flatpickr (date range picker) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Environment switch: enable ONLY one stylesheet -->
+    <script>
+      (function () {
+        var host = window.location.hostname;
+        var isLocal =
+          host === "localhost" ||
+          host === "127.0.0.1" ||
+          host.endsWith(".github.io");
+
+        var localCss = document.getElementById("localStylesheet");
+        var gasCss = document.getElementById("gasStylesheet");
+
+        if (localCss && gasCss) {
+          if (isLocal) {
+            gasCss.disabled = true;
+          } else {
+            localCss.disabled = true;
+          }
+        }
+      })();
+    </script>
+  </head>
+
+  <body class="page admin-page">
+    <!-- ========== TOP BAR ========== -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <button
+          class="sidebar-toggle"
+          id="sidebarToggle"
+          aria-label="Toggle navigation"
+        >
+          &#9776;
+        </button>
+        <div class="brand">
+          <img
+            id="brandLogo"
+            src="https://steph7n.github.io/tec-survey-assets/school-logo.png"
+            alt="Tabgha Education Center logo"
+            class="brand-logo"
+          />
+          <div class="brand-text">
+            <div class="brand-line-2">
+              School Survey <span class="js-year"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-bar-right">
+        <span
+          id="envBadge"
+          class="env-badge"
+          style="display: none;"
+        >
+          DEV
+        </span>
+      </div>
+    </header>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ========== MAIN LAYOUT ========== -->
+    <main class="layout">
+      <!-- ===== Sidebar ===== -->
+      <aside class="sidebar admin-sidebar" id="adminSidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Admin Console</div>
+          <button class="sidebar-item" id="btnDashboard">
+            <span class="sidebar-icon">🏠</span>
+            <span class="sidebar-label">Dashboard</span>
+          </button>
+          <button class="sidebar-item is-active" id="btnInitiateSurveySidebar">
+            <span class="sidebar-icon">🗓️</span>
+            <span class="sidebar-label">Initiate / Configure Survey</span>
+          </button>
+          <button class="sidebar-item" id="btnOpenCloseSidebar">
+            <span class="sidebar-icon">🔓</span>
+            <span class="sidebar-label">Open / Close Current Survey</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Configuration</div>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">📄</span>
+            <span class="sidebar-label">Yearly Config File</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">🧑‍🏫</span>
+            <span class="sidebar-label">Faculty &amp; Student DB Links</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">🧩</span>
+            <span class="sidebar-label">Survey Mapping (SurveyMap)</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">🧬</span>
+            <span class="sidebar-label">Characters &amp; Traits</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Monitoring</div>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">📊</span>
+            <span class="sidebar-label">Live Response Monitor</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">✅</span>
+            <span class="sidebar-label">Validation &amp; Errors</span>
+          </button>
+          <button class="sidebar-item">
+            <span class="sidebar-icon">📥</span>
+            <span class="sidebar-label">Export / Reports</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- ===== Main Content ===== -->
+      <section class="main-content admin-main">
+        <article class="card" id="initCard" style="display: none;">
+          <div class="card-header">
+            <h2>Initiate Survey for Current Year</h2>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="surveyYearInput" class="form-label">Survey year</label>
+              <input
+                type="number"
+                id="surveyYearInput"
+                class="form-input"
+                min="2000"
+                max="2100"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="surveyPeriodInput" class="form-label">Survey period</label>
+              <input
+                type="text"
+                id="surveyPeriodInput"
+                class="form-input"
+                placeholder="Select start and end dates"
+                readonly
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="maxOpenEndedInput" class="form-label">Maximum open-ended answer length</label>
+              <input
+                type="number"
+                id="maxOpenEndedInput"
+                class="form-input"
+                min="1"
+              />
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn--primary" id="btnInitiateSurvey" disabled>Initiate survey</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" id="existingCard" style="display: none;">
+          <div class="card-header">
+            <h2>Current Survey Configuration</h2>
+          </div>
+          <div class="card-body">
+            <p><strong>Survey year:</strong> <span id="existingSurveyYear">—</span></p>
+            <p><strong>Survey period:</strong> <span id="existingSurveyPeriod">—</span></p>
+            <p><strong>Max open-ended length:</strong> <span id="existingMaxOpenEnded">—</span></p>
+            <button class="btn btn--primary" id="btnOpenConfigFile">Open Config File in Google Sheets</button>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var host = window.location.hostname;
+        var isLocal =
+          host === "localhost" ||
+          host === "127.0.0.1" ||
+          host.endsWith(".github.io");
+
+        var brandLogo = document.getElementById("brandLogo");
+        if (brandLogo) {
+          brandLogo.src = isLocal
+            ? "../docs/school-logo.png"
+            : "https://steph7n.github.io/tec-survey-assets/school-logo.png";
+        }
+      })();
+
+      function gotoPage(pageName) {
+        var url = new URL(window.location.href);
+        url.searchParams.set("page", pageName);
+        window.location.href = url.toString();
+      }
+
+      function initAdminInitiateSurveyPage() {
+        var yearSpans = document.querySelectorAll(".js-year");
+        var currentYear = new Date().getFullYear();
+        yearSpans.forEach(function (el) {
+          el.textContent = currentYear;
+        });
+
+        wireSidebar();
+        setupSidebarToggle();
+
+        if (window.google && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(populateSurveyConfigPage)
+            .withFailureHandler(function (err) {
+              console.error("getSurveyConfigAdminData failed", err);
+              alert("Failed to load survey config state.");
+            })
+            .getSurveyConfigAdminData();
+        }
+
+        setupDatePicker();
+        setupInitiateButton();
+      }
+
+      var flatpickrInstance = null;
+      var cachedConfigUrl = "";
+
+      function setupDatePicker() {
+        var periodInput = document.getElementById("surveyPeriodInput");
+        if (!periodInput || !window.flatpickr) return;
+        flatpickrInstance = flatpickr(periodInput, {
+          mode: "range",
+          dateFormat: "Y-m-d",
+          onChange: validateInitiateForm,
+        });
+      }
+
+      function setupInitiateButton() {
+        var yearInput = document.getElementById("surveyYearInput");
+        var periodInput = document.getElementById("surveyPeriodInput");
+        var maxInput = document.getElementById("maxOpenEndedInput");
+        var btn = document.getElementById("btnInitiateSurvey");
+
+        [yearInput, periodInput, maxInput].forEach(function (el) {
+          if (!el) return;
+          el.addEventListener("input", validateInitiateForm);
+          el.addEventListener("change", validateInitiateForm);
+        });
+
+        if (btn) {
+          btn.addEventListener("click", function () {
+            if (btn.disabled) return;
+            var payload = getInitiateFormValues();
+            if (!payload) return;
+            google.script.run
+              .withSuccessHandler(function (msg) {
+                alert(msg || "Survey initiated successfully.");
+                google.script.run
+                  .withSuccessHandler(populateSurveyConfigPage)
+                  .withFailureHandler(function (err) {
+                    console.error("getSurveyConfigAdminData failed", err);
+                  })
+                  .getSurveyConfigAdminData();
+              })
+              .withFailureHandler(function (err) {
+                console.error("initiateSurveyWithConfig failed", err);
+                alert("Failed to initiate survey. See console for details.");
+              })
+              .initiateSurveyWithConfig(
+                payload.year,
+                payload.startDate,
+                payload.endDate,
+                payload.maxLen
+              );
+          });
+        }
+      }
+
+      function validateInitiateForm() {
+        var btn = document.getElementById("btnInitiateSurvey");
+        if (!btn) return;
+        var data = getInitiateFormValues();
+        btn.disabled = !data;
+      }
+
+      function getInitiateFormValues() {
+        var yearInput = document.getElementById("surveyYearInput");
+        var maxInput = document.getElementById("maxOpenEndedInput");
+        var year = yearInput ? parseInt(yearInput.value, 10) : NaN;
+        var maxLen = maxInput ? parseInt(maxInput.value, 10) : NaN;
+
+        var dates = (flatpickrInstance && flatpickrInstance.selectedDates) || [];
+        if (!year || isNaN(year) || year < 2000 || year > 2100) return null;
+        if (!maxLen || isNaN(maxLen) || maxLen <= 0) return null;
+        if (!dates || dates.length < 2) return null;
+
+        var start = new Date(Math.min.apply(null, dates));
+        var end = new Date(Math.max.apply(null, dates));
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) return null;
+
+        var startStr = start.toISOString().slice(0, 10);
+        var endStr = end.toISOString().slice(0, 10);
+        return { year: year, startDate: startStr, endDate: endStr, maxLen: maxLen };
+      }
+
+      function populateSurveyConfigPage(data) {
+        var initCard = document.getElementById("initCard");
+        var existingCard = document.getElementById("existingCard");
+        cachedConfigUrl = data && data.configFileUrl ? data.configFileUrl : "";
+
+        if (data && data.mode === "existing") {
+          if (initCard) initCard.style.display = "none";
+          if (existingCard) existingCard.style.display = "block";
+
+          document.getElementById("existingSurveyYear").textContent =
+            data.existingSurveyYear || "—";
+          document.getElementById("existingSurveyPeriod").textContent =
+            (data.existingStartDate || "—") + " to " + (data.existingEndDate || "—");
+          document.getElementById("existingMaxOpenEnded").textContent =
+            data.existingMaxOpenEndedLength || "—";
+
+          var openBtn = document.getElementById("btnOpenConfigFile");
+          if (openBtn) {
+            openBtn.disabled = !cachedConfigUrl;
+            openBtn.addEventListener("click", function () {
+              if (!cachedConfigUrl) return;
+              window.open(cachedConfigUrl, "_blank");
+            });
+          }
+        } else {
+          if (initCard) initCard.style.display = "block";
+          if (existingCard) existingCard.style.display = "none";
+
+          var yearInput = document.getElementById("surveyYearInput");
+          var maxInput = document.getElementById("maxOpenEndedInput");
+          if (yearInput) {
+            yearInput.value =
+              (data && data.surveyYear) || (data && data.currentYear) || new Date().getFullYear();
+          }
+          if (maxInput) {
+            maxInput.value =
+              (data && data.defaultMaxOpenEndedLength) ||
+              500;
+          }
+          if (flatpickrInstance) {
+            flatpickrInstance.clear();
+          }
+          validateInitiateForm();
+        }
+      }
+
+      function wireSidebar() {
+        var btnDashboard = document.getElementById("btnDashboard");
+        if (btnDashboard) {
+          btnDashboard.addEventListener("click", function () {
+            gotoPage("admin");
+          });
+        }
+        var btnOpenClose = document.getElementById("btnOpenCloseSidebar");
+        if (btnOpenClose) {
+          btnOpenClose.addEventListener("click", function () {
+            gotoPage("admin");
+          });
+        }
+      }
+
+      function setupSidebarToggle() {
+        var sidebarToggle = document.getElementById("sidebarToggle");
+        var sidebarBackdrop = document.getElementById("sidebarBackdrop");
+        var desktopMediaQuery = window.matchMedia("(min-width: 1025px)");
+
+        function openSidebar() {
+          document.body.classList.add("sidebar-open");
+          document.body.classList.remove("sidebar-closed");
+        }
+
+        function closeSidebar() {
+          document.body.classList.remove("sidebar-open");
+          document.body.classList.add("sidebar-closed");
+        }
+
+        function syncSidebarToViewport() {
+          if (desktopMediaQuery.matches) {
+            openSidebar();
+          } else {
+            closeSidebar();
+          }
+        }
+
+        if (sidebarToggle) {
+          sidebarToggle.addEventListener("click", function () {
+            if (document.body.classList.contains("sidebar-open")) {
+              closeSidebar();
+            } else {
+              openSidebar();
+            }
+          });
+        }
+
+        if (sidebarBackdrop) {
+          sidebarBackdrop.addEventListener("click", closeSidebar);
+        }
+
+        syncSidebarToViewport();
+        if (desktopMediaQuery.addEventListener) {
+          desktopMediaQuery.addEventListener("change", syncSidebarToViewport);
+        } else if (desktopMediaQuery.addListener) {
+          desktopMediaQuery.addListener(syncSidebarToViewport);
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initAdminInitiateSurveyPage);
+      } else {
+        initAdminInitiateSurveyPage();
+      }
+    </script>
+  </body>
+</html>

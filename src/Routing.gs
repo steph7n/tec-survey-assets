@@ -9,6 +9,21 @@
 function doGet(e) {
   const page = e && e.parameter && e.parameter.page ? e.parameter.page : "splash";
 
+  const adminPages = ["admin", "adminInitiateSurvey"];
+  if (adminPages.includes(page)) {
+    ensureSuperadmin_();
+    const template = HtmlService.createTemplateFromFile(page);
+    template.baseUrl = ScriptApp.getService().getUrl();
+    const title =
+      page === "adminInitiateSurvey"
+        ? "Tabgha Education Center School Survey – Initiate / Configure Survey"
+        : "Tabgha Education Center School Survey – Admin";
+    return template
+      .evaluate()
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+      .setTitle(title);
+  }
+
   const allowedPages = [
     "splash",
     "loginParent",
@@ -17,7 +32,6 @@ function doGet(e) {
     "survey",
     "surveyInactive",
     "thankyou",
-    "admin"
   ];
 
   const fileToLoad = allowedPages.includes(page) ? page : "splash";
@@ -39,4 +53,3 @@ function doGet(e) {
 function getWebAppUrl_() {
   return ScriptApp.getService().getUrl();
 }
-

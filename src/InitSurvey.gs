@@ -254,3 +254,142 @@ function initiateSurvey() {
     `Survey initialization complete.\n\nCreated: ${newFileName}\nLocation: Same folder as Survey Core Database`
   );
 }
+
+function getSurveyConfigAdminData() {
+  const coreSs = SpreadsheetApp.openById(SURVEY_CORE_DB_ID);
+  const coreConfigSheet = coreSs.getSheetByName("Config");
+  if (!coreConfigSheet) {
+    throw new Error("Core DB is missing the Config sheet.");
+  }
+
+  const coreCfg = getConfigAsObject(coreConfigSheet);
+  const currentConfigFile = coreCfg.currentConfigFile || "";
+
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  var result = {
+    mode: "init",
+    currentYear: currentYear,
+    surveyYear: currentYear,
+    defaultMaxOpenEndedLength: 500,
+    configFileId: "",
+    configFileUrl: "",
+  };
+
+  if (!currentConfigFile) {
+    return result;
+  }
+
+  var ycSs;
+  try {
+    ycSs = SpreadsheetApp.openById(currentConfigFile);
+  } catch (e) {
+    return result; // treat as init if cannot open
+  }
+
+  var cfgSheet = ycSs.getSheetByName("Config");
+  if (!cfgSheet) {
+    return result;
+  }
+
+  var ycfg = getConfigAsObject(cfgSheet);
+  var surveyYearStr = ycfg["surveyYear"];
+  var surveyYearNum = surveyYearStr ? parseInt(String(surveyYearStr), 10) : NaN;
+
+  if (!surveyYearStr || isNaN(surveyYearNum) || surveyYearNum !== currentYear) {
+    return result;
+  }
+
+  result.mode = "existing";
+  result.configFileId = currentConfigFile;
+  result.configFileUrl = DriveApp.getFileById(currentConfigFile).getUrl();
+  result.existingSurveyYear = surveyYearNum;
+  result.existingStartDate = ycfg["surveyStartDate"] || "";
+  result.existingEndDate = ycfg["surveyEndDate"] || "";
+  result.existingMaxOpenEndedLength =
+    parseInt(ycfg["maxOpenEndedLength"] || "0", 10) || 0;
+
+  return result;
+}
+
+function initiateSurveyWithConfig(surveyYear, startDateStr, endDateStr, maxOpenEndedLength) {
+  if (!surveyYear || surveyYear < 2000 || surveyYear > 2100) {
+    throw new Error("surveyYear must be between 2000 and 2100.");
+  }
+  if (!startDateStr || !endDateStr) {
+    throw new Error("Both start and end dates are required.");
+  }
+  var startDate = new Date(startDateStr);
+  var endDate = new Date(endDateStr);
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    throw new Error("Invalid start or end date.");
+  }
+  if (!maxOpenEndedLength || maxOpenEndedLength <= 0) {
+    throw new Error("maxOpenEndedLength must be greater than zero.");
+  }
+
+  const coreSs = SpreadsheetApp.openById(SURVEY_CORE_DB_ID);
+  const coreConfigSheet = coreSs.getSheetByName("Config");
+  if (!coreConfigSheet) {
+    throw new Error("Core DB is missing the Config sheet.");
+  }
+  const coreCfg = getConfigAsObject(coreConfigSheet);
+  const templateId = coreCfg["configTemplate"];
+  if (!templateId) {
+    throw new Error("configTemplate is not set in Core DB Config.");
+  }
+
+  var templateFile = DriveApp.getFileById(templateId);
+  var newFileName = "Tabgha Survey Config " + surveyYear;
+  var newFile = templateFile.makeCopy(newFileName);
+  var newConfigId = newFile.getId();
+  var newConfigSs = SpreadsheetApp.openById(newConfigId);
+  var cfgSheet = newConfigSs.getSheetByName("Config");
+  if (!cfgSheet) {
+    throw new Error("The Yearly Config template is missing the Config sheet.");
+  }
+
+  upsertConfigValues_(cfgSheet, {
+    surveyYear: surveyYear,
+    surveyStartDate: startDateStr,
+    surveyEndDate: endDateStr,
+    maxOpenEndedLength: maxOpenEndedLength,
+    coreDB_ID: coreSs.getId(),
+  });
+
+  // Update Core DB reference
+  upsertConfigValues_(coreConfigSheet, {
+    currentConfigFile: newConfigId,
+  });
+
+  return (
+    "Survey " +
+    surveyYear +
+    " initiated. Yearly Config file created: " +
+    newFileName
+  );
+}
+
+function upsertConfigValues_(sheet, kv) {
+  if (!sheet) throw new Error("Config sheet not found.");
+  var dataRange = sheet.getDataRange();
+  var values = dataRange.getValues();
+  var lastRow = sheet.getLastRow();
+
+  Object.keys(kv).forEach(function (key) {
+    var foundRow = -1;
+    for (var i = 0; i < values.length; i++) {
+      if (String(values[i][0]).trim() === key) {
+        foundRow = i + 1;
+        break;
+      }
+    }
+    if (foundRow !== -1) {
+      sheet.getRange(foundRow, 2).setValue(kv[key]);
+    } else {
+      lastRow += 1;
+      sheet.getRange(lastRow, 1, 1, 2).setValues([[key, kv[key]]]);
+    }
+  });
+}
